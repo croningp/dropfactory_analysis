@@ -51,7 +51,6 @@ from constants import DATASET_FILENAME
 
 def gather_and_save_pool_folder(pool_folder):
 
-    data = read_all_xp(pool_folder)
 
     rel_path = os.path.relpath(pool_folder, ORKNEY_XP_FOLDER)
     save_folder = os.path.join(HERE_PATH, rel_path)
@@ -59,6 +58,12 @@ def gather_and_save_pool_folder(pool_folder):
 
     save_filename = os.path.join(save_folder, DATASET_FILENAME)
 
+    if os.path.exists(save_filename):
+        print 'Skipping {} already generated'.format(rel_path)
+        return
+
+    # else do the stuff
+    data = read_all_xp(pool_folder)
     save_to_json(data, save_filename)
 
 
