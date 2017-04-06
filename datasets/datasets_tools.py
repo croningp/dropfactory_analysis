@@ -39,59 +39,29 @@ def load_dataset(dataset_filename):
 
 if __name__ == '__main__':
 
+    import matplotlib
+    import matplotlib.pyplot as plt
+
+
+
+    plt.figure(figsize=(16,8))
+
     data = load_dataset('random_params/110/data.json')
-
-    import matplotlib
-    import matplotlib.pyplot as plt
-
-    plt.figure()
-    x = data['droplet_features']['average_speed']
-    y = data['droplet_features']['covered_arena_area']
-    plt.scatter(x, y)
-
-    # for k in data['droplet_features'].keys():
-    #     plt.figure()
-    #     y = data['droplet_features'][k]
-    #     plt.scatter(x, y)
-    #     plt.ylabel(k)
-
-    plt.figure()
     x = data['droplet_features']['average_speed']
     y = data['droplet_features']['median_absolute_circularity_deviation']
-    plt.scatter(x, y)
+    plt.subplot(1,2,1)
+    plt.scatter(x, y, 50)
+    plt.xlim([-1, 21])
+    plt.ylim([-0.01, 0.21])
+    plt.xlabel('Speed')
+    plt.ylabel('Deformation')
 
-    plt.figure()
-    x = data['droplet_features']['average_speed']
-    y = data['droplet_features']['average_number_of_droplets']
-    plt.scatter(x, y)
-
-    plt.figure()
-    x = data['droplet_features']['ratio_frame_active']
-    y = data['droplet_features']['average_speed']
-    plt.scatter(x, y)
-    
-
-    data = load_dataset('random_goal/110/data.json')
-
-    import matplotlib
-    import matplotlib.pyplot as plt
-
-    plt.figure()
-    x = data['droplet_features']['average_speed']
-    y = data['droplet_features']['covered_arena_area']
-    plt.scatter(x, y)
-
-    plt.figure()
+    data = load_dataset('random_goal/110_speed_deformation/data.json')
     x = data['droplet_features']['average_speed']
     y = data['droplet_features']['median_absolute_circularity_deviation']
-    plt.scatter(x, y)
-
-    plt.figure()
-    x = data['droplet_features']['average_speed']
-    y = data['droplet_features']['average_number_of_droplets']
-    plt.scatter(x, y)
-
-    plt.figure()
-    x = data['droplet_features']['ratio_frame_active']
-    y = data['droplet_features']['average_speed']
-    plt.scatter(x, y)
+    plt.subplot(1,2,2)
+    plt.scatter(x, y, 50, 'r')
+    plt.xlim([-1, 21])
+    plt.ylim([-0.01, 0.21])
+    plt.xlabel('Speed')
+    plt.ylabel('Deformation')

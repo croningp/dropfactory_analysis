@@ -5,3 +5,4 @@ properties/*.json
 *.svg
 *.eps
 *.avi
+ponctual/drift_vs_droplet_placement/**/*.json

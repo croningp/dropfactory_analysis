@@ -63,6 +63,7 @@ def gather_and_save_pool_folder(pool_folder):
         return
 
     # else do the stuff
+    print 'Working on {}'.format(rel_path)
     data = read_all_xp(pool_folder)
     save_to_json(data, save_filename)
 
@@ -77,7 +78,7 @@ if __name__ == '__main__':
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_params', '110'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_params', '111'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_params', '112'))
-    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_goal', '110'))
+    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_goal', '110_speed_deformation'))
 
     for pool_folder in POOL_FOLDERS:
         gather_and_save_pool_folder(pool_folder)
