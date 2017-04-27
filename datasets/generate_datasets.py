@@ -79,6 +79,11 @@ if __name__ == '__main__':
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_params', '111'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_params', '112'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_goal', '110_speed_deformation'))
+    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_goal', '110_speed_division'))
+    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_goal', '111_speed_division'))
+    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_goal', '112_speed_division'))
+    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'grid_search', '5'))
+    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'grid_search', '6'))
 
     for pool_folder in POOL_FOLDERS:
         gather_and_save_pool_folder(pool_folder)

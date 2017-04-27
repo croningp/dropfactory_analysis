@@ -1,12 +1,13 @@
 import matplotlib
 import matplotlib.pyplot as plt
-import seaborn
+import seaborn as sns
 
 # design figure
-fontsize = 26
-matplotlib.rc('xtick', labelsize=20)
-matplotlib.rc('ytick', labelsize=20)
+fontsize = 30
+matplotlib.rc('xtick', labelsize=24)
+matplotlib.rc('ytick', labelsize=24)
 matplotlib.rcParams.update({'font.size': fontsize})
+sns.set_style("white")
 
 
 def plot_model_vs_data(y_pred, y_true, min_value, max_value, property_name, units='', color='b', figsize=(10, 10)):
@@ -14,7 +15,7 @@ def plot_model_vs_data(y_pred, y_true, min_value, max_value, property_name, unit
     fig = plt.figure(figsize=figsize)
     ax = fig.add_subplot(111, aspect='equal')
     ax.plot([min_value, max_value], [min_value, max_value], 'k--')
-    ax.scatter(y_pred, y_true, 50, c=color)
+    ax.scatter(y_pred, y_true, 200, c=color)
     ax.set_xlim([min_value, max_value])
     ax.set_ylim([min_value, max_value])
     x0,x1 = ax.get_xlim()

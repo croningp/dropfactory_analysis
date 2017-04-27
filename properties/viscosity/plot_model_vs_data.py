@@ -23,14 +23,14 @@ from utils.plotting import save_and_close_fig
 #
 import matplotlib
 import matplotlib.pyplot as plt
-import seaborn
+import seaborn as sns
 
 # design figure
-fontsize = 26
-matplotlib.rc('xtick', labelsize=20)
-matplotlib.rc('ytick', labelsize=20)
+fontsize = 30
+matplotlib.rc('xtick', labelsize=24)
+matplotlib.rc('ytick', labelsize=24)
 matplotlib.rcParams.update({'font.size': fontsize})
-
+sns.set_style("white")
 
 if __name__ == '__main__':
 
@@ -77,8 +77,8 @@ if __name__ == '__main__':
     #
     fig = plt.figure(figsize=(10, 10))
     ax = fig.add_subplot(111, aspect='equal')
-    hdl1 = ax.scatter(y_pred_formula, y_true, 50, c = 'b')
-    hdl2 = ax.scatter(y_pred_regressor, y_true, 50, c = 'r')
+    hdl1 = ax.scatter(y_pred_formula, y_true, 200, c = 'b')
+    hdl2 = ax.scatter(y_pred_regressor, y_true, 200, c = 'r')
     ax.plot([min_value, max_value], [min_value, max_value], 'k--')
     ax.set_xlim([min_value, max_value])
     ax.set_ylim([min_value, max_value])
