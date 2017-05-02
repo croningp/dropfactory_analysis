@@ -1,8 +1,9 @@
 *.pyc
 *.pkl
-properties/*.json
 *.png
 *.svg
 *.eps
 *.avi
 ponctual/drift_vs_droplet_placement/**/*.json
+properties/*.json
+/datasets/**/*.json
