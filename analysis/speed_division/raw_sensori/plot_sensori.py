@@ -38,9 +38,6 @@ if __name__ == '__main__':
 
     for i_method_name, method_name in enumerate(METHOD_NAMES):
         for i_seed, seed in enumerate(SEEDS):
-            print method_name
-            print seed
-            print i_method_name*N_SEEDS + i_seed + 1
             plt.subplot(N_METHODS, N_SEEDS, i_method_name*N_SEEDS + i_seed + 1)
 
             if method_name != 'random_params':
