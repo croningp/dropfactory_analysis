@@ -1,3 +1,6 @@
+import numpy as np
+from scipy import stats
+
 import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -30,3 +33,23 @@ def plot_coverage_2D(ax, X, radius, color='#339933', alpha=1):
         new_point = Point(px, py).buffer(radius)
         patch = PolygonPatch(new_point, fc=color, ec=color, alpha=alpha)
         ax.add_patch(patch)
+
+
+def plot_kde(kde_data, bounds = [0, 1, 0, 1], resolution=100j, bandwidth=None, cmap=plt.cm.gist_earth_r):
+
+    XMIN = bounds[0]
+    XMAX = bounds[1]
+    YMIN = bounds[2]
+    YMAX = bounds[3]
+
+    X, Y = np.mgrid[XMIN:XMAX:resolution, YMIN:YMAX:resolution]
+    POSITIONS = np.vstack([X.ravel(), Y.ravel()])
+
+    if bandwidth is not None:
+        kernel = stats.gaussian_kde(kde_data, bw_method=bandwidth)
+    else:
+        kernel = stats.gaussian_kde(kde_data)
+
+    Z = np.reshape(kernel(POSITIONS).T, X.shape)
+
+    plt.imshow(np.rot90(Z), cmap=cmap, extent=[XMIN, XMAX, YMIN, YMAX])
