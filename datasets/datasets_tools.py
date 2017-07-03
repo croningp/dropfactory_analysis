@@ -34,6 +34,8 @@ def format_data(raw_data):
     data['droplet_composition']['pentanol'] = []
     data['droplet_composition']['vector_form'] = []
     data['droplet_composition']['ratio_vector_form'] = []
+    data['droplet_composition']['json_form'] = []
+    data['droplet_composition']['norm_json_form'] = []
 
     for xp in raw_data['experiments']:
         data['droplet_composition']['dep'].append(xp['params']['oil_formulation']['dep'])
@@ -48,6 +50,13 @@ def format_data(raw_data):
 
         data['droplet_composition']['vector_form'].append(oil_vector)
         data['droplet_composition']['ratio_vector_form'].append(ratio_oil_vector)
+
+        ##
+        data['droplet_composition']['json_form'].append(xp['params']['oil_formulation'])
+        norm_json_form = {}
+        for i, k in enumerate(['dep', 'octanol', 'octanoic', 'pentanol']):
+            norm_json_form[k] = ratio_oil_vector[i]
+        data['droplet_composition']['norm_json_form'].append(norm_json_form)
 
     ##
     from properties.density.density_model import compute_density
@@ -75,11 +84,17 @@ def load_dataset(dataset_filename):
     return format_data(read_from_json(dataset_filename))
 
 
+def get_dataset_basepath():
+    return HERE_PATH
+
 def forge_dataset_filename(method, seed):
-    return os.path.join(HERE_PATH, method, seed, DATASET_FILENAME)
+    return os.path.join(get_dataset_basepath(), method, seed, DATASET_FILENAME)
+
+def forge_dataset_filename_from_relpath(relpath):
+    return os.path.join(get_dataset_basepath(), relpath, DATASET_FILENAME)
 
 def forge_dataset_filename_from_path(path):
-    return os.path.join(HERE_PATH, path, DATASET_FILENAME)
+    return os.path.join(path, DATASET_FILENAME)
 
 ##
 def format_repeats(raw_data):
