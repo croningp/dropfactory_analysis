@@ -22,6 +22,9 @@ def format_data(raw_data):
 
     ##
     data = {}
+    data['paths'] = [xp['path'] for xp in experiments]
+
+    ##
     data['droplet_features'] = {}
     for k in experiments[0]['droplet_features'].keys():
         data['droplet_features'][k] = [xp['droplet_features'][k] for xp in experiments]
@@ -37,7 +40,7 @@ def format_data(raw_data):
     data['droplet_composition']['json_form'] = []
     data['droplet_composition']['norm_json_form'] = []
 
-    for xp in raw_data['experiments']:
+    for xp in experiments:
         data['droplet_composition']['dep'].append(xp['params']['oil_formulation']['dep'])
         data['droplet_composition']['octanol'].append(xp['params']['oil_formulation']['octanol'])
         data['droplet_composition']['octanoic'].append(xp['params']['oil_formulation']['octanoic'])

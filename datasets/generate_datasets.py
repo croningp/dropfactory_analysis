@@ -36,6 +36,7 @@ def collect_xp_data_from_folder(pool_folder, xp_folder):
     xptool = XPTools(pool_folder)
 
     xp_data = {}
+    xp_data['path'] = os.path.join(pool_folder, xp_folder)
     xp_data['params'] = xptool.get_json_content_from_xp_folder_and_filename(xp_folder, XP_PARAMS_FILENAME)
     xp_data['features'] = xptool.get_json_content_from_xp_folder_and_filename(xp_folder, XP_FEATURES_FILENAME)
     xp_data['explauto_info'] = xptool.get_json_content_from_xp_folder_and_filename(xp_folder, EXPLAUTO_INFO_FILENAME)
@@ -163,6 +164,7 @@ if __name__ == '__main__':
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', '27'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', '28'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', 'no_control_1'))
+    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', 'no_control_2'))
 
     for pool_folder in POOL_FOLDERS:
         gather_and_save_pool_folder(pool_folder)
