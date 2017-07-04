@@ -162,6 +162,7 @@ if __name__ == '__main__':
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', '26'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', '27'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', '28'))
+    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', 'no_control_1'))
 
     for pool_folder in POOL_FOLDERS:
         gather_and_save_pool_folder(pool_folder)
