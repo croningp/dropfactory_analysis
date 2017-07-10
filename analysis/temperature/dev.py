@@ -68,27 +68,27 @@ if __name__ == '__main__':
     PLOT_FOLDER = os.path.join(HERE_PATH, 'plots')
     filetools.ensure_dir(PLOT_FOLDER)
 
-    # for i in range(recipes.shape[0]):
-    #     index = find_row(X, recipes[i,:])
-    #     for k in datasets['droplet_features'].keys():
-    #         x = np.array(datasets['xp_info']['temperature'])[index]
-    #         y = np.array(datasets['droplet_features'][k])[index]
-    #
-    #         fig = plt.figure(figsize=(12,8))
-    #         plt.scatter(x, y, 50, 'b')
-    #         # plt.plot(x, y_rbf, 'k')
-    #         plt.xlabel('Temperature', fontsize=fontsize)
-    #         plt.ylabel(k, fontsize=fontsize)
-    #         plt.xlim([15, 30])
-    #         delta_y = 0.1*(np.max(y) - np.min(y))
-    #         plt.ylim([np.min(y)-delta_y, np.max(y)+delta_y])
-    #         plt.title(str(datasets['droplet_composition']['norm_json_form'][index[0]]))
-    #         plt.tight_layout()
-    #
-    #         i_plot_folder = os.path.join(PLOT_FOLDER, str(i))
-    #         filetools.ensure_dir(i_plot_folder)
-    #         plotfilebasename = os.path.join(i_plot_folder, k)
-    #         save_and_close_fig(fig, plotfilebasename, exts=['.png'])
+    for i in range(recipes.shape[0]):
+        index = find_row(X, recipes[i,:])
+        for k in datasets['droplet_features'].keys():
+            x = np.array(datasets['xp_info']['temperature'])[index]
+            y = np.array(datasets['droplet_features'][k])[index]
+
+            fig = plt.figure(figsize=(12,8))
+            plt.scatter(x, y, 50, 'b')
+            # plt.plot(x, y_rbf, 'k')
+            plt.xlabel('Temperature', fontsize=fontsize)
+            plt.ylabel(k, fontsize=fontsize)
+            plt.xlim([15, 30])
+            delta_y = 0.1*(np.max(y) - np.min(y))
+            plt.ylim([np.min(y)-delta_y, np.max(y)+delta_y])
+            plt.title(str(datasets['droplet_composition']['norm_json_form'][index[0]]))
+            plt.tight_layout()
+
+            i_plot_folder = os.path.join(PLOT_FOLDER, str(i))
+            filetools.ensure_dir(i_plot_folder)
+            plotfilebasename = os.path.join(i_plot_folder, k)
+            save_and_close_fig(fig, plotfilebasename, exts=['.png'])
 
 
     for k in ['average_speed', 'average_number_of_droplets']:
@@ -105,7 +105,8 @@ if __name__ == '__main__':
             x = x.reshape([x.size, 1])
 
             svr_rbf = SVR(kernel='rbf', C=1, gamma=0.2)
-            y_rbf = svr_rbf.fit(x, y).predict(x)
+            y_rbf = svr_rbf.fit(x, y).predict(x
+            )
 
             fig = plt.figure(figsize=(8,8))
             plt.scatter(x, y, 20, c=['b', 'g', 'r'][i])

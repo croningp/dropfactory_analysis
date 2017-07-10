@@ -157,15 +157,11 @@ if __name__ == '__main__':
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'reach', '110_speed_division'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'reach', '111_speed_division'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'reach', '112_speed_division'))
-    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', '20'))
-    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', '22'))
-    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', '24'))
-    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', '25'))
-    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', '26'))
-    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', '27'))
-    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', '28'))
-    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', 'no_control_1'))
-    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments', 'no_control_2'))
 
+    TEMPERATURE_PATH = os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments')
+    for folder in filetools.list_folders(TEMPERATURE_PATH):
+        POOL_FOLDERS.append(folder)
+
+    #
     for pool_folder in POOL_FOLDERS:
         gather_and_save_pool_folder(pool_folder)
