@@ -146,3 +146,13 @@ def join_datasets(base_dataset, *args):
         for arg in args:
             base_dataset.extend(arg)
         return base_dataset
+
+
+def sub_dataset(dataset, index):
+    new_dataset = {}
+    if type(dataset) == dict:
+        for k in dataset.keys():
+            new_dataset[k] = sub_dataset(dataset[k], index)
+        return new_dataset
+    else:
+        return [dataset[i] for i in index]

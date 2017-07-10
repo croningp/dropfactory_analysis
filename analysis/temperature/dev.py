@@ -9,11 +9,6 @@ import sys
 root_path = os.path.join(HERE_PATH, '..', '..')
 sys.path.append(root_path)
 
-from datasets.datasets_tools import load_dataset
-from datasets.datasets_tools import forge_dataset_filename_from_path
-from datasets.datasets_tools import join_datasets
-from datasets.datasets_tools import get_dataset_basepath
-
 import numpy as np
 
 import matplotlib
@@ -22,44 +17,19 @@ import seaborn as sns
 
 from utils.plotting import save_and_close_fig
 
+from temperature_tools import load_temperature_dataset
+from temperature_tools import load_recipes
+from temperature_tools import find_row
+
 # design figure
 fontsize = 30
 matplotlib.rc('xtick', labelsize=26)
 matplotlib.rc('ytick', labelsize=26)
 matplotlib.rcParams.update({'font.size': fontsize})
 
-N_REPEATS = 10
-RECIPES_CSV_FILENAME = os.path.join(HERE_PATH, 'recipes_for_temperature_analysis.csv')
-EXPERIMENT_FOLDER = os.path.join(HERE_PATH, 'experiments')
-
-def load_recipes():
-    data = np.loadtxt(RECIPES_CSV_FILENAME, delimiter=',', skiprows=1)
-    # order is dep,octanol,octanoic,pentanol
-    return data
-
-
-# def unique_row(data):
-#     a = np.array(data)
-#     b = np.ascontiguousarray(a).view(np.dtype((np.void, a.dtype.itemsize * a.shape[1])))
-#     _, idx = np.unique(b, return_index=True)
-#     unique_a = a[idx]
-#     return unique_a
-
-def find_row(X, row):
-    return np.where((X == row).all(axis=1))[0]
-
-
 if __name__ == '__main__':
 
-    TEMPERATURE_DATA_RELPATH = 'manual_exploration/temperature_analysis/experiments'
-
-    import filetools
-    temperature_folders = filetools.list_folders(os.path.join(get_dataset_basepath(), TEMPERATURE_DATA_RELPATH))
-
-    datasets = []
-    for path in temperature_folders:
-        datasets.append(load_dataset(forge_dataset_filename_from_path(path)))
-    datasets = join_datasets(*datasets)
+    datasets = load_temperature_dataset()
 
     ##
     X = np.array(datasets['droplet_composition']['vector_form'])
