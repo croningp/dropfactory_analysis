@@ -15,6 +15,8 @@ import matplotlib
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+import filetools
+
 from utils.plotting import save_and_close_fig
 
 from temperature_tools import load_temperature_dataset
