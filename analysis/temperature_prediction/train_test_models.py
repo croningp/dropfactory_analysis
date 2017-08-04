@@ -26,6 +26,7 @@ from utils.temperature_tools import load_recipes
 from utils.temperature_tools import find_row
 
 from utils.tools import save_to_json
+from utils.seed import set_seed
 
 import multiprocessing
 from sklearn.grid_search import GridSearchCV
@@ -62,6 +63,25 @@ if __name__ == '__main__':
         for r in range(1, len(feature_names)):
             print 'Number of features: {}'.format(r)
             for comb_number, comb in enumerate(combinations(feature_names, r)):
+
+                ## set a seed for reproducable results
+                set_seed(0, verbose=False)
+
+                # check not already done, skip if done
+                # delete files if you want to recompute it all or comment below section
+                DATA_FOLDER = os.path.join(HERE_PATH, 'data', str(i), str(r))
+                filetools.ensure_dir(DATA_FOLDER)
+                datafilename = os.path.join(DATA_FOLDER, '{}.json'.format(comb_number))
+
+                if os.path.exists(datafilename):
+                    continue
+
+                PLOT_FOLDER = os.path.join(HERE_PATH, 'plots', str(i), str(r))
+                filetools.ensure_dir(PLOT_FOLDER)
+                plotfilebasename = os.path.join(PLOT_FOLDER, str(comb_number))
+
+                if os.path.exists('{}.png'.format(plotfilebasename)):
+                    continue
 
                 ## make datasets
                 X = []
@@ -106,12 +126,7 @@ if __name__ == '__main__':
                 data['mean_absolute_error'] = mean_absolute_error(y, y_pred)
                 data['mean_squared_error'] = mean_squared_error(y, y_pred)
                 data['median_absolute_error'] = median_absolute_error(y, y_pred)
-
                 ## save data
-                DATA_FOLDER = os.path.join(HERE_PATH, 'data', str(i), str(r))
-                filetools.ensure_dir(DATA_FOLDER)
-
-                datafilename = os.path.join(DATA_FOLDER, '{}.json'.format(comb_number))
                 save_to_json(data, datafilename)
 
                 ## plotting
@@ -121,10 +136,5 @@ if __name__ == '__main__':
                 plt.xlabel('Measured Temperature - C', fontsize=fontsize)
                 plt.ylabel('Predicted Temperature - C', fontsize=fontsize)
                 plt.tight_layout()
-
                 ## save plot
-                PLOT_FOLDER = os.path.join(HERE_PATH, 'plots', str(i), str(r))
-                filetools.ensure_dir(PLOT_FOLDER)
-
-                plotfilebasename = os.path.join(PLOT_FOLDER, str(comb_number))
                 save_and_close_fig(fig, plotfilebasename, exts=['.png'])
