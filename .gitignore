@@ -4,8 +4,9 @@
 *.svg
 *.eps
 *.avi
-ponctual/drift_vs_droplet_placement/**/*.json
+analysis/drift_vs_droplet_placement/**/*.json
 properties/*.json
 /datasets/**/*.json
 /analysis/speed_division/coverage/data/coverages.json
-/analysis/temperature/csv/
+/analysis/temperature_analysis/csv/
+/analysis/temperature_prediction/data

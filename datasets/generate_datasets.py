@@ -143,6 +143,7 @@ if __name__ == '__main__':
     from constants import ORKNEY_XP_FOLDER
 
     POOL_FOLDERS = []
+    # 26C
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_params', '100'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_params', '101'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_params', '110'))
@@ -157,7 +158,12 @@ if __name__ == '__main__':
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'reach', '110_speed_division'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'reach', '111_speed_division'))
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'reach', '112_speed_division'))
+    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'interest_tree', '110_speed_division'))
+    
+    # 22C
+    POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_goal', '210_speed_division'))
 
+    # variable C
     TEMPERATURE_PATH = os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration', 'temperature_analysis', 'experiments')
     for folder in filetools.list_folders(TEMPERATURE_PATH):
         POOL_FOLDERS.append(folder)
