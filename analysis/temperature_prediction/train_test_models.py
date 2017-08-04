@@ -73,14 +73,11 @@ if __name__ == '__main__':
                 filetools.ensure_dir(DATA_FOLDER)
                 datafilename = os.path.join(DATA_FOLDER, '{}.json'.format(comb_number))
 
-                if os.path.exists(datafilename):
-                    continue
-
                 PLOT_FOLDER = os.path.join(HERE_PATH, 'plots', str(i), str(r))
                 filetools.ensure_dir(PLOT_FOLDER)
                 plotfilebasename = os.path.join(PLOT_FOLDER, str(comb_number))
 
-                if os.path.exists('{}.png'.format(plotfilebasename)):
+                if os.path.exists(datafilename) and os.path.exists('{}.png'.format(plotfilebasename)):
                     continue
 
                 ## make datasets

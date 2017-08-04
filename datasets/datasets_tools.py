@@ -74,7 +74,12 @@ def format_data(raw_data):
     ##
     data['xp_info'] = {}
     for k in experiments[0]['run_info'].keys():
-        data['xp_info'][k] = [xp['run_info'][k] for xp in experiments]
+        data['xp_info'][k] = []
+        for xp in experiments:
+            if xp['run_info'] is not None:
+                data['xp_info'][k].append(xp['run_info'][k])
+            else:
+                data['xp_info'][k].append(None)
 
     return data
 
