@@ -64,7 +64,7 @@ if __name__ == '__main__':
             print 'Number of features: {}'.format(r)
             for comb_number, comb in enumerate(combinations(feature_names, r)):
 
-                ## set a seed for reproducable results
+                ## set a seed for reproducible results
                 set_seed(0, verbose=False)
 
                 # check not already done, skip if done
