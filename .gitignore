@@ -10,3 +10,4 @@ properties/*.json
 /analysis/speed_division/coverage/data/coverages.json
 /analysis/temperature_analysis/csv/
 /analysis/temperature_prediction/data
+/figures/exploration/data/coverages.json
