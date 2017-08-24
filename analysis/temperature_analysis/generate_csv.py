@@ -9,9 +9,9 @@ import sys
 root_path = os.path.join(HERE_PATH, '..', '..')
 sys.path.append(root_path)
 
-from temperature_tools import load_temperature_dataset
-from temperature_tools import load_recipes
-from temperature_tools import find_row
+from utils.temperature_tools import load_temperature_dataset
+from utils.temperature_tools import load_recipes
+from utils.temperature_tools import find_row
 
 import filetools
 
@@ -37,6 +37,8 @@ def build_csv(datasets, filename):
     column_names.append('humidity')
     for k, v in datasets['droplet_features'].items():
         column_names.append(k)
+    for k, v in datasets['droplet_properties'].items():
+        column_names.append(k)
 
     data_list.append(column_names)
 
@@ -48,6 +50,8 @@ def build_csv(datasets, filename):
         data_row.append(datasets['xp_info']['temperature'][i])
         data_row.append(datasets['xp_info']['humidity'][i])
         for k, v in datasets['droplet_features'].items():
+            data_row.append(v[i])
+        for k, v in datasets['droplet_properties'].items():
             data_row.append(v[i])
 
         data_list.append(data_row)
