@@ -55,7 +55,7 @@ if __name__ == '__main__':
 
             plt.plot(coverage_data[method_name][seed], linewidth=3)
 
-            legend_names.append('{} {}'.format(method_name, seed))
+            legend_names.append('{}_{}'.format(method_name, seed))
 
     plt.xlabel(X_FEATURE_NAME, fontsize=fontsize)
     plt.ylabel(Y_FEATURE_NAME, fontsize=fontsize)
@@ -85,8 +85,8 @@ if __name__ == '__main__':
     intersection_iteration = index_above_final_coverage_random_params[0][0] + 1 # index starts at 0, iteration number at 1
 
     line_color = sns.xkcd_palette(['greyish'])[0]
-    ax1.plot([0, 1020], [final_coverage_random_params, final_coverage_random_params], c=line_color, linewidth=1, linestyle='--')
-    ax1.plot([0, 1020], [final_coverage_random_goal, final_coverage_random_goal], c=line_color, linewidth=1, linestyle='--')
+    ax1.plot([0, 1000], [final_coverage_random_params, final_coverage_random_params], c=line_color, linewidth=1, linestyle='--')
+    ax1.plot([0, 1000], [final_coverage_random_goal, final_coverage_random_goal], c=line_color, linewidth=1, linestyle='--')
     ax1.plot([intersection_iteration, intersection_iteration], [0, final_coverage_random_params], c=line_color, linewidth=1, linestyle='--')
 
     xticks = np.sort([0, 500, 1000, intersection_iteration])
@@ -109,15 +109,18 @@ if __name__ == '__main__':
         yerr = yerr[ind]
         x = x[ind]
 
-        handle = ax1.errorbar(x, y, yerr=yerr, linewidth=3, color=COLORS[i_method_name])
-        handles.append(handle[0])
-
         #
-        final_coverages = []
+        coverages = []
         for i_seed, seed in enumerate(SEEDS):
-            final_coverages.append(coverage_data[method_name][seed][-1])
+            coverages.append(coverage_data[method_name][seed])
 
-        sns.boxplot(data=final_coverages, color=COLORS[i_method_name], ax=ax2)
+
+        handle = sns.tsplot(data=coverages, ci=[68], ax=ax1, linewidth=3, color=COLORS[i_method_name])
+        # handle = ax1.errorbar(x, y, yerr=yerr, linewidth=3, color=COLORS[i_method_name])
+        handles.append(handle)
+
+
+        sns.boxplot(data=np.array(coverages)[:,-1], color=COLORS[i_method_name], ax=ax2)
 
     ## ax1 nice
     ax1.set_xlim([0, 1020])

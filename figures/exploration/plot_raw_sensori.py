@@ -43,17 +43,20 @@ if __name__ == '__main__':
 
     # random params, seed 112
     fig  = plt.figure(figsize=(8,8))
+    with sns.axes_style("ticks"):
+        ax = plt.subplot(111)
 
     data = load_dataset(forge_dataset_filename('random_params', '112'))
     x = data['droplet_features'][X_FEATURE_NAME]
     y = data['droplet_features'][Y_FEATURE_NAME]
 
-    plt.scatter(x, y, 50, c=COLORS[0])
+    plt.scatter(x, y, 100, c=COLORS[0])
     plt.xlim([-1, 21])
     plt.ylim([-1, 21])
     plt.xlabel(X_LABEL, fontsize=fontsize)
     plt.ylabel(Y_LABEL, fontsize=fontsize)
 
+    sns.despine(offset=10, trim=True, ax=ax)
     plt.tight_layout()
 
     figure_filebasename = os.path.join(plot_folder, 'random_params_112')
@@ -61,17 +64,20 @@ if __name__ == '__main__':
 
     # random goals, seed 112
     fig  = plt.figure(figsize=(8,8))
+    with sns.axes_style("ticks"):
+        ax = plt.subplot(111)
 
     data = load_dataset(forge_dataset_filename('random_goal', '112_speed_division'))
     x = data['droplet_features'][X_FEATURE_NAME]
     y = data['droplet_features'][Y_FEATURE_NAME]
 
-    plt.scatter(x, y, 50, c=COLORS[1])
+    plt.scatter(x, y, 100, c=COLORS[1])
     plt.xlim([-1, 21])
     plt.ylim([-1, 21])
     plt.xlabel(X_LABEL, fontsize=fontsize)
     plt.ylabel(Y_LABEL, fontsize=fontsize)
 
+    sns.despine(offset=10, trim=True, ax=ax)
     plt.tight_layout()
 
     figure_filebasename = os.path.join(plot_folder, 'random_goals_112')

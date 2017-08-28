@@ -38,7 +38,7 @@ if __name__ == '__main__':
         min_residual_mean = []
         min_residual_std = []
         R = []
-        for comb_nb in range(1, 11):
+        for comb_nb in range(2, 3):
             data_folder = os.path.join(DATA_FOLDER, str(recipe_nb), str(comb_nb))
 
             data_files = filetools.list_files(data_folder)
@@ -65,5 +65,3 @@ if __name__ == '__main__':
         plt.plot(min_error_curve)
 
     plt.show()
-
-    
