@@ -8,6 +8,8 @@ import sys
 root_path = os.path.join(HERE_PATH, '..')
 sys.path.append(root_path)
 
+import csv
+
 from constants import DATASET_FILENAME
 from constants import REPEATS_FILENAME
 from utils.tools import read_from_json
@@ -161,3 +163,46 @@ def sub_dataset(dataset, index):
         return new_dataset
     else:
         return [dataset[i] for i in index]
+
+
+##
+def save_list_to_csv(data_list, filename):
+    with open(filename, 'wb') as csvfile:
+        csvwriter = csv.writer(csvfile, delimiter=' ')
+        for data in data_list:
+            csvwriter.writerow(data)
+
+
+def build_csv(datasets, filename):
+
+    data_list = []
+
+    ##
+    column_names = []
+    column_names.append('path')
+    column_names.extend(["dep", "octanol", "octanoic", "pentanol"])
+    column_names.append('temperature')
+    column_names.append('humidity')
+    for k, v in datasets['droplet_features'].items():
+        column_names.append(k)
+    for k, v in datasets['droplet_properties'].items():
+        column_names.append(k)
+
+    data_list.append(column_names)
+
+    ##
+    for i in range(len(datasets['paths'])):
+        data_row = []
+        data_row.append(datasets['paths'][i])
+        data_row.extend(datasets['droplet_composition']['ratio_vector_form'][i])
+        data_row.append(datasets['xp_info']['temperature'][i])
+        data_row.append(datasets['xp_info']['humidity'][i])
+        for k, v in datasets['droplet_features'].items():
+            data_row.append(v[i])
+        for k, v in datasets['droplet_properties'].items():
+            data_row.append(v[i])
+
+        data_list.append(data_row)
+
+    ##
+    save_list_to_csv(data_list, filename)

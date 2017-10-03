@@ -13,52 +13,9 @@ from utils.temperature_tools import load_temperature_dataset
 from utils.temperature_tools import load_recipes
 from utils.temperature_tools import find_row
 
+from datasets.datasets_tools import build_csv
+
 import filetools
-
-#
-import csv
-
-def save_list_to_csv(data_list, filename):
-    with open(filename, 'wb') as csvfile:
-        csvwriter = csv.writer(csvfile, delimiter=' ')
-        for data in data_list:
-            csvwriter.writerow(data)
-
-
-def build_csv(datasets, filename):
-
-    data_list = []
-
-    ##
-    column_names = []
-    column_names.append('path')
-    column_names.extend(["dep", "octanol", "octanoic", "pentanol"])
-    column_names.append('temperature')
-    column_names.append('humidity')
-    for k, v in datasets['droplet_features'].items():
-        column_names.append(k)
-    for k, v in datasets['droplet_properties'].items():
-        column_names.append(k)
-
-    data_list.append(column_names)
-
-    ##
-    for i in range(len(datasets['paths'])):
-        data_row = []
-        data_row.append(datasets['paths'][i])
-        data_row.extend(datasets['droplet_composition']['ratio_vector_form'][i])
-        data_row.append(datasets['xp_info']['temperature'][i])
-        data_row.append(datasets['xp_info']['humidity'][i])
-        for k, v in datasets['droplet_features'].items():
-            data_row.append(v[i])
-        for k, v in datasets['droplet_properties'].items():
-            data_row.append(v[i])
-
-        data_list.append(data_row)
-
-    ##
-    save_list_to_csv(data_list, filename)
-
 
 if __name__ == '__main__':
 

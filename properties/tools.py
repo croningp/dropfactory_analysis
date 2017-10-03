@@ -28,7 +28,9 @@ def save_to_json(data, filename):
 def ratio_normalize(x):
     x = np.array(x, dtype=float)
     div = np.sum(x, 1)
-    return x / div[:, None]
+    norm_x = x / div[:, None]
+    norm_x[np.where(div == 0)[0]] = 1.0 / x.shape[1]
+    return norm_x
 
 
 def load_csv(filename):

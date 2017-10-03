@@ -11,3 +11,4 @@ properties/*.json
 /analysis/temperature_analysis/csv/
 /analysis/temperature_prediction/data
 /figures/exploration/data/coverages.json
+csv/**/*.csv
