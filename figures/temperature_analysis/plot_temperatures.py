@@ -90,4 +90,4 @@ if __name__ == '__main__':
             plt.tight_layout()
 
             plotfilebasename = os.path.join(PLOT_FOLDER, k + '_' + str(ind))
-            save_and_close_fig(fig, plotfilebasename, exts=['.png'])
+            save_and_close_fig(fig, plotfilebasename)

@@ -169,4 +169,11 @@ if __name__ == '__main__':
 
     ## save plot
     plotfilebasename = os.path.join(PLOT_FOLDER, 'temp_prediction')
-    save_and_close_fig(fig, plotfilebasename, exts=['.png'])
+    save_and_close_fig(fig, plotfilebasename)
+
+
+    ## print info needed
+
+    print '###'
+    print 'Residual mean = {}'.format(mean_residual)
+    print 'Residual std = {}'.format(std_residual)
