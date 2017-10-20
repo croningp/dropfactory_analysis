@@ -31,7 +31,7 @@ if __name__ == '__main__':
     Y_FEATURE_NAME = 'average_number_of_droplets'
 
     METHOD_NAMES = ['random_params', 'random_goal']
-    SEEDS = ['110', '111', '112']
+    SEEDS = ['110', '111', '112', '210', '211', '212']
     COLORS = ['b', 'r', 'g']
 
     N_METHODS = len(METHOD_NAMES)
@@ -50,6 +50,10 @@ if __name__ == '__main__':
             x = data['droplet_features'][X_FEATURE_NAME]
             y = data['droplet_features'][Y_FEATURE_NAME]
 
+            import numpy as np
+            print forge_dataset_filename(method_name, seed)
+            temperatures = np.array(data['xp_info']['temperature'])
+            print temperatures[np.logical_not(np.equal(temperatures, None))].mean()
 
             plt.scatter(x, y, 50, c=COLORS[i_method_name])
             plt.xlim([-1, 21])

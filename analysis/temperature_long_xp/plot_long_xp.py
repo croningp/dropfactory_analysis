@@ -91,6 +91,6 @@ if __name__ == '__main__':
             if recipy == params['oil_formulation']:
 
                 split_path = result_folder.split('/')
-                identifier = '{}_{}'.format(split_path[-2], split_path[-1])
+                identifier = '{}_{}_{0:.2f}'.format(split_path[-2], split_path[-1], run_info['temperature'])
                 save_folder = os.path.join(PLOT_FOLDER, str(i), identifier)
                 plot_xp(save_folder, features, params, run_info)
