@@ -43,7 +43,7 @@ if __name__ == '__main__':
     files = filetools.list_files(CSV_PATH, ['*.csv'])
 
     # path = '/home/group/workspace/dropfactory_analysis/analysis/temperature_long_xp/csv/3/average_number_of_droplets.csv'
-    path = '/home/group/workspace/dropfactory_analysis/analysis/temperature_long_xp/csv/7/average_speed.csv'
+    path = '/home/group/workspace/dropfactory_analysis/analysis/temperature_long_xp/csv/3/average_speed.csv'
     # path = '/home/group/workspace/dropfactory_analysis/analysis/temperature_long_xp/csv/3/average_area.csv'
 
     data = load_csv(path)

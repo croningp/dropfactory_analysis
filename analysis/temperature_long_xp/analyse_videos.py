@@ -201,16 +201,18 @@ def handle_direction_vectors_xp_folder(xp_folder):
 def copy_info(xp_folder):
 
     remote_params_filename = os.path.join(xp_folder, PARAMS_FILENAME)
-    local_params_filename = xp_folder.replace(LONG_XP_PATH, '')
-    local_params_filename = os.path.join(DATA_PATH, local_params_filename, PARAMS_FILENAME)
-    if not os.path.exists(local_params_filename):
-        copyfile(remote_params_filename, local_params_filename)
+    if os.path.exists(remote_params_filename):
+        local_params_filename = xp_folder.replace(LONG_XP_PATH, '')
+        local_params_filename = os.path.join(DATA_PATH, local_params_filename, PARAMS_FILENAME)
+        if not os.path.exists(local_params_filename):
+            copyfile(remote_params_filename, local_params_filename)
 
     remote_run_info_filename = os.path.join(xp_folder, RUN_INFO_FILENAME)
-    local_run_info_filename = xp_folder.replace(LONG_XP_PATH, '')
-    local_run_info_filename = os.path.join(DATA_PATH, local_run_info_filename, RUN_INFO_FILENAME)
-    if not os.path.exists(local_run_info_filename):
-        copyfile(remote_run_info_filename, local_run_info_filename)
+    if os.path.exists(remote_run_info_filename):
+        local_run_info_filename = xp_folder.replace(LONG_XP_PATH, '')
+        local_run_info_filename = os.path.join(DATA_PATH, local_run_info_filename, RUN_INFO_FILENAME)
+        if not os.path.exists(local_run_info_filename):
+            copyfile(remote_run_info_filename, local_run_info_filename)
 
 
 
@@ -223,8 +225,11 @@ if __name__ == '__main__':
     for filename in files:
         xp_folder = os.path.split(filename)[0]
         handle_features_xp_folder(xp_folder)
-        copy_info(xp_folder)
 
     for filename in files:
         xp_folder = os.path.split(filename)[0]
         handle_direction_vectors_xp_folder(xp_folder)
+
+    for filename in files:
+        xp_folder = os.path.split(filename)[0]
+        copy_info(xp_folder)

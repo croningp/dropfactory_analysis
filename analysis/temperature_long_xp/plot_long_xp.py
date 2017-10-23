@@ -28,7 +28,7 @@ matplotlib.rc('xtick', labelsize=26)
 matplotlib.rc('ytick', labelsize=26)
 matplotlib.rcParams.update({'font.size': fontsize})
 
-PLOT_FOLDER = os.path.join(HERE_PATH, 'plots')
+PLOT_FOLDER = os.path.join(HERE_PATH, 'plots', 'raw')
 filetools.ensure_dir(PLOT_FOLDER)
 
 DATA_PATH = os.path.join(HERE_PATH, 'extracted_data')
@@ -91,6 +91,6 @@ if __name__ == '__main__':
             if recipy == params['oil_formulation']:
 
                 split_path = result_folder.split('/')
-                identifier = '{}_{}_{0:.2f}'.format(split_path[-2], split_path[-1], run_info['temperature'])
+                identifier = '{}_{}_T{}'.format(split_path[-2], split_path[-1], np.round(run_info['temperature'], 2))
                 save_folder = os.path.join(PLOT_FOLDER, str(i), identifier)
                 plot_xp(save_folder, features, params, run_info)
