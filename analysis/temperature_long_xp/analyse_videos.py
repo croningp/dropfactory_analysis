@@ -22,13 +22,12 @@ from chemobot_tools.droplet_tracking.droplet_feature import aggregate_droplet_in
 from utils.tools import save_to_json
 from utils.tools import read_from_json
 
+from long_xp_tools import generate_filename_from_template
+
 DATA_PATH = os.path.join(HERE_PATH, 'extracted_data')
 filetools.ensure_dir(DATA_PATH)
 TMP_PATH = os.path.join(HERE_PATH, 'tmp')
 filetools.ensure_dir(TMP_PATH)
-
-N_FRAME_WINDOW = 40  # 20fps
-N_FRAME_STEP = 20
 
 DROPLET_INFO_FILENAME = 'droplet_info.json'
 DISH_INFO_FILENAME = 'dish_info.json'
@@ -44,13 +43,13 @@ TMP_FEATURE_FILE = os.path.join(TMP_PATH, 'tmp_droplet_features.json')
 SAMPLE_VIDEO = os.path.join(HERE_PATH, 'sample_video.avi')
 
 
-
-def handle_features_xp_folder(xp_folder):
+def handle_features_xp_folder(xp_folder, n_frame_step, n_frame_window):
 
     print 'Working on {}'.format(xp_folder)
 
     time_features_filename = xp_folder.replace(LONG_XP_PATH, '')
-    time_features_filename = os.path.join(DATA_PATH, time_features_filename, TIME_FEATURES_FILENAME)
+    generated_filename = generate_filename_from_template(TIME_FEATURES_FILENAME, n_frame_step, n_frame_window)
+    time_features_filename = os.path.join(DATA_PATH, time_features_filename, generated_filename)
 
     if os.path.exists(time_features_filename):
         print 'Skipping, already processed'
@@ -83,7 +82,7 @@ def handle_features_xp_folder(xp_folder):
     n_frame = len(droplet_info)
 
     start_index = 0
-    end_index = start_index + N_FRAME_WINDOW
+    end_index = start_index + n_frame_window
 
     time_features = None
     while True:
@@ -101,8 +100,8 @@ def handle_features_xp_folder(xp_folder):
             for k in droplet_features.keys():
                 time_features[k].extend([droplet_features[k]])
 
-        start_index += N_FRAME_STEP
-        end_index = start_index + N_FRAME_WINDOW
+        start_index += n_frame_step
+        end_index = start_index + n_frame_window
         if end_index >= n_frame:
             break
 
@@ -111,12 +110,13 @@ def handle_features_xp_folder(xp_folder):
     save_to_json(time_features, time_features_filename)
 
 
-def handle_direction_vectors_xp_folder(xp_folder):
+def handle_direction_vectors_xp_folder(xp_folder, n_frame_step, n_frame_window):
 
     print 'Working on {}'.format(xp_folder)
 
     time_displacement_vectors_filename = xp_folder.replace(LONG_XP_PATH, '')
-    time_displacement_vectors_filename = os.path.join(DATA_PATH, time_displacement_vectors_filename, DISPLACEMENT_VECTORS_FILENAME)
+    generated_filename = generate_filename_from_template(DISPLACEMENT_VECTORS_FILENAME, n_frame_step, n_frame_window)
+    time_displacement_vectors_filename = os.path.join(DATA_PATH, time_displacement_vectors_filename, generated_filename)
 
     if os.path.exists(time_displacement_vectors_filename):
         print 'Skipping, already processed'
@@ -163,7 +163,7 @@ def handle_direction_vectors_xp_folder(xp_folder):
         displacement_info['end_position'] = []
 
         start_index = 0
-        end_index = start_index + N_FRAME_WINDOW
+        end_index = start_index + n_frame_window
         time_step = 0
 
         while True:
@@ -185,8 +185,8 @@ def handle_direction_vectors_xp_folder(xp_folder):
                     displacement_info['start_position'].append(start_position)
                     displacement_info['end_position'].append(end_position)
             #
-            start_index += N_FRAME_STEP
-            end_index = start_index + N_FRAME_WINDOW
+            start_index += n_frame_step
+            end_index = start_index + n_frame_window
             time_step = time_step + 1
             if end_index >= n_frame:
                 break
@@ -224,12 +224,13 @@ if __name__ == '__main__':
 
     for filename in files:
         xp_folder = os.path.split(filename)[0]
-        handle_features_xp_folder(xp_folder)
 
-    for filename in files:
-        xp_folder = os.path.split(filename)[0]
-        handle_direction_vectors_xp_folder(xp_folder)
+        # 20fps -> 1 sec steps, 2 sec windows
+        handle_features_xp_folder(xp_folder, 20, 40) # 20fps -> 1 sec steps, 2 sec windows
+        handle_direction_vectors_xp_folder(xp_folder, 20, 40) # 20fps -> 1 sec steps, 2 sec windows
 
-    for filename in files:
-        xp_folder = os.path.split(filename)[0]
+        # 20fps -> 0.25 sec steps, 0.5 sec windows
+        handle_features_xp_folder(xp_folder, 5, 10) # 20fps -> 0.25 sec steps, 0.5 sec windows
+        handle_direction_vectors_xp_folder(xp_folder, 5, 10)  # 20fps -> 0.25 sec steps, 0.5 sec windows
+
         copy_info(xp_folder)

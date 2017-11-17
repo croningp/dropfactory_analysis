@@ -27,69 +27,79 @@ PARAMS_FILENAME = 'params.json'
 RUN_INFO_FILENAME=  'run_info.json'
 DISPLACEMENT_VECTORS_FILENAME = 'displacement_vectors.json'
 
+from long_xp_tools import generate_filename_from_template
+
 
 if __name__ == '__main__':
 
-    files = filetools.list_files(DATA_PATH, [DISPLACEMENT_VECTORS_FILENAME])
-    recipes = load_recipes()
+    PARAMS_TO_SCREEN = [(20, 40), (5, 10)]
 
-    for recipy_i, vector_recipy in enumerate(recipes):
+    for N_FRAME_STEP, N_FRAME_WINDOW in PARAMS_TO_SCREEN:
 
-        #dep,octanol,octanoic,pentanol
-        recipy = {}
-        recipy['dep'] = vector_recipy[0]
-        recipy['octanol'] = vector_recipy[1]
-        recipy['octanoic'] = vector_recipy[2]
-        recipy['pentanol'] = vector_recipy[3]
+        EXTENDED_DISPLACEMENT_VECTORS_FILENAME = generate_filename_from_template(DISPLACEMENT_VECTORS_FILENAME, N_FRAME_STEP, N_FRAME_WINDOW)
 
-        for file_i, filename in enumerate(files):
-            result_folder = os.path.split(filename)[0]
+        files = filetools.list_files(DATA_PATH, [EXTENDED_DISPLACEMENT_VECTORS_FILENAME])
+        recipes = load_recipes()
 
-            params_filename = os.path.join(result_folder, PARAMS_FILENAME)
-            params = read_from_json(params_filename)
+        for recipy_i, vector_recipy in enumerate(recipes):
 
-            if recipy == params['oil_formulation']:
+            #dep,octanol,octanoic,pentanol
+            recipy = {}
+            recipy['dep'] = vector_recipy[0]
+            recipy['octanol'] = vector_recipy[1]
+            recipy['octanoic'] = vector_recipy[2]
+            recipy['pentanol'] = vector_recipy[3]
 
-                displacement_filename = os.path.join(result_folder, DISPLACEMENT_VECTORS_FILENAME)
-                displacements = read_from_json(displacement_filename)
+            for file_i, filename in enumerate(files):
+                result_folder = os.path.split(filename)[0]
 
-                run_info_filename = os.path.join(result_folder, RUN_INFO_FILENAME)
-                run_info = read_from_json(run_info_filename)
+                params_filename = os.path.join(result_folder, PARAMS_FILENAME)
+                params = read_from_json(params_filename)
 
-                for sequence_number, disp_info in enumerate(displacements):
+                if recipy == params['oil_formulation']:
 
-                    data_list = []
+                    displacement_filename = os.path.join(result_folder, EXTENDED_DISPLACEMENT_VECTORS_FILENAME)
+                    displacements = read_from_json(displacement_filename)
 
-                    column_names = []
-                    column_names.append('time_step')
-                    column_names.append('temperature')
-                    column_names.append('dx')
-                    column_names.append('dy')
-                    column_names.append('start_x')
-                    column_names.append('start_y')
-                    column_names.append('end_x')
-                    column_names.append('end_y')
-                    data_list.append(column_names)
+                    run_info_filename = os.path.join(result_folder, RUN_INFO_FILENAME)
+                    run_info = read_from_json(run_info_filename)
 
-                    for ind in range(len(disp_info['time_step'])):
+                    for sequence_number, disp_info in enumerate(displacements):
 
-                        data_row = []
-                        data_row.append(disp_info['time_step'][ind])
-                        data_row.append(run_info['temperature'])
-                        data_row.append(disp_info['dx'][ind])
-                        data_row.append(disp_info['dy'][ind])
-                        data_row.append(disp_info['start_position'][ind][0])
-                        data_row.append(disp_info['start_position'][ind][1])
-                        data_row.append(disp_info['end_position'][ind][0])
-                        data_row.append(disp_info['end_position'][ind][1])
+                        data_list = []
 
-                        data_list.append(data_row)
+                        column_names = []
+                        column_names.append('time_step')
+                        column_names.append('temperature')
+                        column_names.append('dx')
+                        column_names.append('dy')
+                        column_names.append('start_x')
+                        column_names.append('start_y')
+                        column_names.append('end_x')
+                        column_names.append('end_y')
+                        data_list.append(column_names)
 
-                    ##
-                    split_path = result_folder.split('/')
-                    identifier = '{}_{}_T{}'.format(split_path[-2], split_path[-1], np.round(run_info['temperature'], 2))
-                    save_folder = os.path.join(DISPLACEMENT_PATH, str(recipy_i), identifier)
-                    filetools.ensure_dir(save_folder)
+                        for ind in range(len(disp_info['time_step'])):
 
-                    save_filename = os.path.join(save_folder, '{}.csv'.format(sequence_number))
-                    save_list_to_csv(data_list, save_filename)
+                            data_row = []
+                            data_row.append(disp_info['time_step'][ind])
+                            data_row.append(run_info['temperature'])
+                            data_row.append(disp_info['dx'][ind])
+                            data_row.append(disp_info['dy'][ind])
+                            data_row.append(disp_info['start_position'][ind][0])
+                            data_row.append(disp_info['start_position'][ind][1])
+                            data_row.append(disp_info['end_position'][ind][0])
+                            data_row.append(disp_info['end_position'][ind][1])
+
+                            data_list.append(data_row)
+
+                        ##
+                        step_window_subfolder = '{}_{}'.format(N_FRAME_STEP, N_FRAME_WINDOW)
+
+                        split_path = result_folder.split('/')
+                        identifier = '{}_{}_T{}'.format(split_path[-2], split_path[-1], np.round(run_info['temperature'], 2))
+                        save_folder = os.path.join(DISPLACEMENT_PATH, step_window_subfolder, str(recipy_i), identifier)
+                        filetools.ensure_dir(save_folder)
+
+                        save_filename = os.path.join(save_folder, '{}.csv'.format(sequence_number))
+                        save_list_to_csv(data_list, save_filename)
