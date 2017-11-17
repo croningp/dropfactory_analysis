@@ -43,7 +43,7 @@ TMP_FEATURE_FILE = os.path.join(TMP_PATH, 'tmp_droplet_features.json')
 SAMPLE_VIDEO = os.path.join(HERE_PATH, 'sample_video.avi')
 
 
-def handle_features_xp_folder(xp_folder, n_frame_step, n_frame_window):
+def handle_features_xp_folder(xp_folder, n_frame_step, n_frame_window, min_sequence_length):
 
     print 'Working on {}'.format(xp_folder)
 
@@ -68,7 +68,7 @@ def handle_features_xp_folder(xp_folder, n_frame_step, n_frame_window):
         'dish_info_filename': TMP_DISH_INFO_FILENAME,
         'droplet_info_filename': TMP_DROPLET_INFO_FILE,
         'max_distance_tracking': 100,
-        'min_sequence_length': 20,
+        'min_sequence_length': min_sequence_length,  # droplet sequences smaller than that (in frame) will be discarded
         'join_min_frame_dist': 1,
         'join_max_frame_dist': 10,
         'min_droplet_radius': 5,
@@ -235,12 +235,12 @@ if __name__ == '__main__':
             continue
 
         # 20fps -> 1 sec steps, 2 sec windows
-        handle_features_xp_folder(xp_folder, 20, 40) # 20fps -> 1 sec steps, 2 sec windows
-        handle_direction_vectors_xp_folder(xp_folder, 20, 40) # 20fps -> 1 sec steps, 2 sec windows
+        handle_features_xp_folder(xp_folder, n_frame_step=20, n_frame_window=40, min_sequence_length=20)
+        handle_direction_vectors_xp_folder(xp_folder, n_frame_step=20, n_frame_window=40)
 
         # 20fps -> 0.25 sec steps, 0.5 sec windows
-        handle_features_xp_folder(xp_folder, 5, 10) # 20fps -> 0.25 sec steps, 0.5 sec windows
-        handle_direction_vectors_xp_folder(xp_folder, 5, 10)  # 20fps -> 0.25 sec steps, 0.5 sec windows
+        handle_features_xp_folder(xp_folder, n_frame_step=5, n_frame_window=10, min_sequence_length=5)
+        handle_direction_vectors_xp_folder(xp_folder, n_frame_step=5, n_frame_window=10)
 
         copy_info(xp_folder)
 
