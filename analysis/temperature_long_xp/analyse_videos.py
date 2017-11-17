@@ -215,6 +215,11 @@ def copy_info(xp_folder):
             copyfile(remote_run_info_filename, local_run_info_filename)
 
 
+def check_xp_folder_processed(xp_folder):
+    local_run_info_filename = xp_folder.replace(LONG_XP_PATH, '')
+    local_run_info_filename = os.path.join(DATA_PATH, local_run_info_filename, RUN_INFO_FILENAME)
+    return os.path.exists(local_run_info_filename)
+
 
 if __name__ == '__main__':
 
@@ -225,6 +230,10 @@ if __name__ == '__main__':
     for filename in files:
         xp_folder = os.path.split(filename)[0]
 
+        ## only for bash run, comment otherwise
+        if check_xp_folder_processed(xp_folder):
+            continue
+
         # 20fps -> 1 sec steps, 2 sec windows
         handle_features_xp_folder(xp_folder, 20, 40) # 20fps -> 1 sec steps, 2 sec windows
         handle_direction_vectors_xp_folder(xp_folder, 20, 40) # 20fps -> 1 sec steps, 2 sec windows
@@ -234,3 +243,6 @@ if __name__ == '__main__':
         handle_direction_vectors_xp_folder(xp_folder, 5, 10)  # 20fps -> 0.25 sec steps, 0.5 sec windows
 
         copy_info(xp_folder)
+
+        ## only for bash run, comment otherwise
+        break
