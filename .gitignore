@@ -7,9 +7,11 @@
 analysis/drift_vs_droplet_placement/**/*.json
 analysis/temperature_long_xp/extracted_data
 analysis/temperature_long_xp/extracted_data_old
-analysis/temperature_long_xp/tmp
-/analysis/temperature_long_xp/csv
 /analysis/temperature_long_xp/displacement_csv
+/analysis/temperature_long_xp/displacement_csv_old
+/analysis/temperature_long_xp/time_feature_csv
+/analysis/temperature_long_xp/time_feature_csv_old
+analysis/temperature_long_xp/tmp
 /analysis/speed_division/coverage/data/coverages.json
 /analysis/temperature_analysis/csv/
 /analysis/temperature_prediction/data

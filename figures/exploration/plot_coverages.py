@@ -33,8 +33,8 @@ LEGEND_NAMES = ['Random Screening', 'Goal Babbling']
 X_FEATURE_NAME = 'Number of experiments'
 Y_FEATURE_NAME = 'Average Exploration / $AU$'
 
-current_palette = sns.color_palette()
-COLORS = [current_palette[0], current_palette[2]]
+color_palette = sns.color_palette("Paired")
+COLORS = [color_palette[1], color_palette[5]]
 
 if __name__ == '__main__':
 
@@ -66,12 +66,12 @@ if __name__ == '__main__':
     save_and_close_fig(fig, figure_filebasename, legend=legend)
 
     ##
-    fig = plt.figure(figsize=(16, 8))
+    fig = plt.figure(figsize=(12, 8))
 
     # with sns.axes_style("ticks"):
     #     ax1 = plt.subplot(111)
 
-    split = 100 ## for no logical reasons 100 breaks it but make it work nicer
+    split = 10 ## for no logical reasons 100 breaks it but make it work nicer
     with sns.axes_style("ticks"):
         ax1 = plt.subplot2grid((1, split), (0, 0), colspan=split-1)
     with sns.axes_style("white"):
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     index_above_final_coverage_random_params = np.where(np.array(coverage_data['random_goal']['mean']) > final_coverage_random_params)
     intersection_iteration = index_above_final_coverage_random_params[0][0] + 1 # index starts at 0, iteration number at 1
 
-    line_color = sns.xkcd_palette(['greyish'])[0]
+    line_color = sns.xkcd_palette(['slate grey'])[0]
     ax1.plot([0, 1000], [final_coverage_random_params, final_coverage_random_params], c=line_color, linewidth=1, linestyle='--')
     ax1.plot([0, 1000], [final_coverage_random_goal, final_coverage_random_goal], c=line_color, linewidth=1, linestyle='--')
     ax1.plot([intersection_iteration, intersection_iteration], [0, final_coverage_random_params], c=line_color, linewidth=1, linestyle='--')
@@ -115,8 +115,8 @@ if __name__ == '__main__':
             coverages.append(coverage_data[method_name][seed])
 
 
-        handle = sns.tsplot(data=coverages, ci=[68], ax=ax1, linewidth=3, color=COLORS[i_method_name])
-        # handle = ax1.errorbar(x, y, yerr=yerr, linewidth=3, color=COLORS[i_method_name])
+        # handle = sns.tsplot(data=coverages, err_style="ci_band", ci=[95], ax=ax1, linewidth=3, color=COLORS[i_method_name])
+        handle = ax1.errorbar(x, y, yerr=yerr, linewidth=3, color=COLORS[i_method_name])
         handles.append(handle)
 
 

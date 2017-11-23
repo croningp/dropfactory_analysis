@@ -33,8 +33,8 @@ if __name__ == '__main__':
     X_LABEL = 'Average Speed of Droplets / $mm.s^{-1}$'
     Y_LABEL = 'Average Number of Droplets'
 
-    current_palette = sns.color_palette()
-    COLORS = [current_palette[0], current_palette[2]]
+    color_palette = sns.color_palette("Paired")
+    COLORS = [color_palette[1], color_palette[5]]
 
     plot_folder = os.path.join(HERE_PATH, 'plot')
     filetools.ensure_dir(plot_folder)
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     plt.xlabel(X_LABEL, fontsize=fontsize)
     plt.ylabel(Y_LABEL, fontsize=fontsize)
 
-    sns.despine(offset=10, trim=True, ax=ax)
+    sns.despine(offset=0, trim=True, ax=ax)
     plt.tight_layout()
 
     figure_filebasename = os.path.join(plot_folder, 'random_params_112')
@@ -77,7 +77,7 @@ if __name__ == '__main__':
     plt.xlabel(X_LABEL, fontsize=fontsize)
     plt.ylabel(Y_LABEL, fontsize=fontsize)
 
-    sns.despine(offset=10, trim=True, ax=ax)
+    sns.despine(offset=0, trim=True, ax=ax)
     plt.tight_layout()
 
     figure_filebasename = os.path.join(plot_folder, 'random_goals_112')
