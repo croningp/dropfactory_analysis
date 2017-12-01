@@ -53,12 +53,13 @@ if __name__ == '__main__':
                 dataset_seed = '{}_speed_division'.format(seed)
             data = load_dataset(forge_dataset_filename(method_name, dataset_seed))
 
-            x = data['droplet_features'][X_FEATURE_NAME]
-            y = data['droplet_features'][Y_FEATURE_NAME]
+            x = np.array(data['droplet_features'][X_FEATURE_NAME])
+            y = np.array(data['droplet_features'][Y_FEATURE_NAME])
             temperatures = np.array(data['xp_info']['temperature'])
 
-            DATA[method_name][seed][X_FEATURE_NAME] = np.array(x)
-            DATA[method_name][seed][Y_FEATURE_NAME] = np.array(y)
+            DATA[method_name][seed][X_FEATURE_NAME] = x
+            DATA[method_name][seed][Y_FEATURE_NAME] = y
+            DATA[method_name][seed]['temperature'] = temperatures
             DATA[method_name][seed]['temperature_mean'] = temperatures[np.logical_not(np.equal(temperatures, None))].mean()
             DATA[method_name][seed]['temperature_std'] = temperatures[np.logical_not(np.equal(temperatures, None))].std()
 
@@ -133,7 +134,7 @@ if __name__ == '__main__':
     ax.set_xlim([0, 350])
     ax.set_ylim([1-BAR_WIDTH, 2+BAR_WIDTH])
 
-    t = 'Number of experiments faster than {} {}'.format(THRESHOLD, '$mm.s^{-1}$')
+    t = 'Number of experiments with droplet speed > {} {}'.format(THRESHOLD, '$mm.s^{-1}$')
     ax.set_xlabel(t, fontsize=fontsize)
 
     sns.despine(offset=20, trim=True, left=True, ax=ax)
@@ -145,9 +146,12 @@ if __name__ == '__main__':
 
 
     ##
-    
+    ##print temprature mean + std
 
+    # plot distribution of all experiments
+    # one figure per method/temperature couple
 
+    # plot all the full raw sensori
 
     # plt.figure(figsize=(8, 8))
     # for i_method_name, method_name in enumerate(METHOD_NAMES):

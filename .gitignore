@@ -15,7 +15,7 @@ analysis/temperature_long_xp/tmp
 /analysis/speed_division/coverage/data/coverages.json
 /analysis/temperature_analysis/csv/
 /analysis/temperature_prediction/data
-/figures/exploration/data/coverages.json
 csv/**/*.csv
 properties/*.json
 /datasets/**/*.json
+/figures/**/*.json
