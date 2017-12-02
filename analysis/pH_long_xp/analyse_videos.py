@@ -44,6 +44,7 @@ TMP_FEATURE_FILE = os.path.join(TMP_PATH, 'tmp_droplet_features.json')
 SAMPLE_VIDEO = os.path.join(HERE_PATH, 'sample_video.avi')
 
 
+
 def handle_features_xp_folder(xp_folder, n_frame_step, n_frame_window):
 
     print 'Working on {}'.format(xp_folder)
@@ -310,7 +311,7 @@ def check_xp_folder_processed(xp_folder, filename):
 
 if __name__ == '__main__':
 
-    LONG_XP_PATH = '/home/group/orkney1/Chemobot/dropfactory_exploration/realworld_experiments/manual_exploration/temperature_long_xp/experiments/'
+    LONG_XP_PATH = '/home/group/orkney1/Chemobot/dropfactory_exploration/realworld_experiments/manual_exploration/pH_long_xp/experiments/'
 
     files = filetools.list_files(LONG_XP_PATH, [DROPLET_INFO_FILENAME])
 

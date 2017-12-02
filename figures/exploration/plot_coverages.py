@@ -17,10 +17,13 @@ import seaborn as sns
 
 
 # design figure
-fontsize = 30
-matplotlib.rc('xtick', labelsize=26)
-matplotlib.rc('ytick', labelsize=26)
+fontsize = 34
+matplotlib.rc('xtick', labelsize=30)
+matplotlib.rc('ytick', labelsize=30)
 matplotlib.rcParams.update({'font.size': fontsize})
+
+linewidth = 4
+helpers_linewidth = 2
 
 import filetools
 from utils.tools import read_from_json
@@ -29,9 +32,9 @@ from utils.plotting import save_and_close_fig
 METHOD_NAMES = ['random_params', 'random_goal']
 SEEDS = ['110', '111', '112']
 
-LEGEND_NAMES = ['Random Screening', 'Goal Babbling']
+LEGEND_NAMES = ['Random Experiments', 'Goal Babbling']
 X_FEATURE_NAME = 'Number of experiments'
-Y_FEATURE_NAME = 'Average Exploration / $AU$'
+Y_FEATURE_NAME = 'Exploration Measure / $AU$'
 
 color_palette = sns.color_palette("Paired")
 COLORS = [color_palette[1], color_palette[5]]
@@ -53,7 +56,7 @@ if __name__ == '__main__':
     for i_method_name, method_name in enumerate(METHOD_NAMES):
         for i_seed, seed in enumerate(SEEDS):
 
-            plt.plot(coverage_data[method_name][seed], linewidth=3)
+            plt.plot(coverage_data[method_name][seed], linewidth=linewidth)
 
             legend_names.append('{}_{}'.format(method_name, seed))
 
@@ -85,9 +88,9 @@ if __name__ == '__main__':
     intersection_iteration = index_above_final_coverage_random_params[0][0] + 1 # index starts at 0, iteration number at 1
 
     line_color = sns.xkcd_palette(['slate grey'])[0]
-    ax1.plot([0, 1000], [final_coverage_random_params, final_coverage_random_params], c=line_color, linewidth=1, linestyle='--')
-    ax1.plot([0, 1000], [final_coverage_random_goal, final_coverage_random_goal], c=line_color, linewidth=1, linestyle='--')
-    ax1.plot([intersection_iteration, intersection_iteration], [0, final_coverage_random_params], c=line_color, linewidth=1, linestyle='--')
+    ax1.plot([0, 1000], [final_coverage_random_params, final_coverage_random_params], c=line_color, linewidth=helpers_linewidth, linestyle='--')
+    ax1.plot([0, 1000], [final_coverage_random_goal, final_coverage_random_goal], c=line_color, linewidth=helpers_linewidth, linestyle='--')
+    ax1.plot([intersection_iteration, intersection_iteration], [0, final_coverage_random_params], c=line_color, linewidth=helpers_linewidth, linestyle='--')
 
     xticks = np.sort([0, 500, 1000, intersection_iteration])
     ax1.set_xticks(xticks)
@@ -116,7 +119,7 @@ if __name__ == '__main__':
 
 
         # handle = sns.tsplot(data=coverages, err_style="ci_band", ci=[95], ax=ax1, linewidth=3, color=COLORS[i_method_name])
-        handle = ax1.errorbar(x, y, yerr=yerr, linewidth=3, color=COLORS[i_method_name])
+        handle = ax1.errorbar(x, y, yerr=yerr, linewidth=linewidth, color=COLORS[i_method_name])
         handles.append(handle)
 
 

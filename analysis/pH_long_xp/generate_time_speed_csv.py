@@ -20,10 +20,10 @@ from datasets.datasets_tools import save_list_to_csv
 
 DATA_PATH = os.path.join(HERE_PATH, 'extracted_data')
 
-CSV_FOLDER = os.path.join(HERE_PATH, 'time_feature_csv')
+CSV_FOLDER = os.path.join(HERE_PATH, 'time_speed_csv')
 filetools.ensure_dir(CSV_FOLDER)
 
-TIME_FEATURES_FILENAME = 'time_features.json'
+TIME_SPEED_FILENAME = 'time_speed.json'
 PARAMS_FILENAME = 'params.json'
 RUN_INFO_FILENAME=  'run_info.json'
 
@@ -35,11 +35,11 @@ if __name__ == '__main__':
 
     for N_FRAME_STEP, N_FRAME_WINDOW in PARAMS_TO_SCREEN:
 
-        EXTENDED_TIME_FEATURES_FILENAME = generate_filename_from_template(TIME_FEATURES_FILENAME, N_FRAME_STEP, N_FRAME_WINDOW)
-        files = filetools.list_files(DATA_PATH, [EXTENDED_TIME_FEATURES_FILENAME])
+        EXTENDED_TIME_SPEED_FILENAME = generate_filename_from_template(TIME_SPEED_FILENAME, N_FRAME_STEP, N_FRAME_WINDOW)
+        files = filetools.list_files(DATA_PATH, [EXTENDED_TIME_SPEED_FILENAME])
         recipes = load_recipes()
 
-        FEATURES_OF_INTEREST = ['average_circularity', 'median_absolute_circularity_deviation', 'covered_arena_area', 'average_speed', 'average_number_of_droplets_last_second', 'average_spread', 'total_droplet_path_length', 'ratio_frame_active', 'average_area',   'max_average_single_droplet_speed', 'average_number_of_droplets']
+        FEATURES_OF_INTEREST = ['average_speed']
 
         for feature_name in FEATURES_OF_INTEREST:
             for i, vector_recipy in enumerate(recipes):
@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
                     if recipy == params['oil_formulation']:
 
-                        features_filename = os.path.join(result_folder, EXTENDED_TIME_FEATURES_FILENAME)
+                        features_filename = os.path.join(result_folder, EXTENDED_TIME_SPEED_FILENAME)
                         features = read_from_json(features_filename)
 
                         if feature_name in features.keys():

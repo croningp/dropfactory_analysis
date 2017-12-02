@@ -20,18 +20,20 @@ import filetools
 from utils.plotting import save_and_close_fig
 
 # design figure
-fontsize = 30
-matplotlib.rc('xtick', labelsize=26)
-matplotlib.rc('ytick', labelsize=26)
+fontsize = 34
+matplotlib.rc('xtick', labelsize=30)
+matplotlib.rc('ytick', labelsize=30)
 matplotlib.rcParams.update({'font.size': fontsize})
+
+max_lim = 17.5
 
 if __name__ == '__main__':
 
     X_FEATURE_NAME = 'average_speed'
     Y_FEATURE_NAME = 'average_number_of_droplets'
 
-    X_LABEL = 'Average Speed of Droplets / $mm.s^{-1}$'
-    Y_LABEL = 'Average Number of Droplets'
+    X_LABEL = 'Droplet Speed / $mm.s^{-1}$'
+    Y_LABEL = 'No. of Droplets'
 
     color_palette = sns.color_palette("Paired")
     COLORS = [color_palette[1], color_palette[5]]
@@ -51,8 +53,8 @@ if __name__ == '__main__':
     y = data['droplet_features'][Y_FEATURE_NAME]
 
     plt.scatter(x, y, 100, c=COLORS[0])
-    plt.xlim([-1, 21])
-    plt.ylim([-1, 21])
+    plt.xlim([-1, max_lim])
+    plt.ylim([-1, max_lim])
     plt.xlabel(X_LABEL, fontsize=fontsize)
     plt.ylabel(Y_LABEL, fontsize=fontsize)
 
@@ -72,8 +74,8 @@ if __name__ == '__main__':
     y = data['droplet_features'][Y_FEATURE_NAME]
 
     plt.scatter(x, y, 100, c=COLORS[1])
-    plt.xlim([-1, 21])
-    plt.ylim([-1, 21])
+    plt.xlim([-1, max_lim])
+    plt.ylim([-1, max_lim])
     plt.xlabel(X_LABEL, fontsize=fontsize)
     plt.ylabel(Y_LABEL, fontsize=fontsize)
 
