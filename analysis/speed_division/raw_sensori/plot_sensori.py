@@ -72,35 +72,49 @@ if __name__ == '__main__':
     ##
     fig  = plt.figure(figsize=(16, 8))
 
-    plt.subplot(1, 2, 2)
+    plt.subplot(1, 2, 1)
 
     if method_name != 'random_params':
         seed = '{}_speed_division'.format(seed)
-    data = load_dataset(forge_dataset_filename('random_goal', '112_speed_division'))
+    data = load_dataset(forge_dataset_filename('random_goal', '111'))
+    # data = load_dataset(forge_dataset_filename('random_goal', '210'))
     x = data['droplet_features'][X_FEATURE_NAME]
     y = data['droplet_features'][Y_FEATURE_NAME]
+
+    import numpy as np
+    print forge_dataset_filename(method_name, seed)
+    temperatures = np.array(data['xp_info']['temperature'])
+    print temperatures[np.logical_not(np.equal(temperatures, None))].mean()
 
     plt.scatter(x, y, 50, c='r')
     plt.xlim([-1, 21])
     plt.ylim([-1, 21])
     plt.xlabel('Speed', fontsize=fontsize)
     plt.ylabel('Division', fontsize=fontsize)
+    plt.title('NEW')
 
-    plt.subplot(1, 2, 1)
+    plt.subplot(1, 2, 2)
 
     if method_name != 'random_params':
         seed = '{}_speed_division'.format(seed)
-    data = load_dataset(forge_dataset_filename('random_goal', '210_speed_division'))
+    data = load_dataset(forge_dataset_filename('random_goal', '111_speed_division'))
+    # data = load_dataset(forge_dataset_filename('random_goal', '210_speed_division'))
     # data = load_dataset(forge_dataset_filename('interest_tree', '110_speed_division'))
     # data = load_dataset(forge_dataset_filename('reach', '110_speed_division'))
     x = data['droplet_features'][X_FEATURE_NAME]
     y = data['droplet_features'][Y_FEATURE_NAME]
+
+    import numpy as np
+    print forge_dataset_filename(method_name, seed)
+    temperatures = np.array(data['xp_info']['temperature'])
+    print temperatures[np.logical_not(np.equal(temperatures, None))].mean()
 
     plt.scatter(x, y, 50, c='k')
     plt.xlim([-1, 21])
     plt.ylim([-1, 21])
     plt.xlabel('Speed', fontsize=fontsize)
     plt.ylabel('Division', fontsize=fontsize)
+    plt.title('OLD')
 
     ##
     plot_folder = os.path.join(HERE_PATH, 'plot')

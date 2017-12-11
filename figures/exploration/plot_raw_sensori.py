@@ -25,7 +25,7 @@ matplotlib.rc('xtick', labelsize=30)
 matplotlib.rc('ytick', labelsize=30)
 matplotlib.rcParams.update({'font.size': fontsize})
 
-max_lim = 17.5
+max_lim = 21.5
 
 if __name__ == '__main__':
 
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     with sns.axes_style("ticks"):
         ax = plt.subplot(111)
 
-    data = load_dataset(forge_dataset_filename('random_params', '112'))
+    data = load_dataset(forge_dataset_filename('random_params', '111'))
     x = data['droplet_features'][X_FEATURE_NAME]
     y = data['droplet_features'][Y_FEATURE_NAME]
 
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     sns.despine(offset=0, trim=True, ax=ax)
     plt.tight_layout()
 
-    figure_filebasename = os.path.join(plot_folder, 'random_params_112')
+    figure_filebasename = os.path.join(plot_folder, 'random_params_111')
     save_and_close_fig(fig, figure_filebasename)
 
     # random goals, seed 112
@@ -69,11 +69,14 @@ if __name__ == '__main__':
     with sns.axes_style("ticks"):
         ax = plt.subplot(111)
 
-    data = load_dataset(forge_dataset_filename('random_goal', '112_speed_division'))
+    data = load_dataset(forge_dataset_filename('random_goal', '111_speed_division'))
     x = data['droplet_features'][X_FEATURE_NAME]
     y = data['droplet_features'][Y_FEATURE_NAME]
 
     plt.scatter(x, y, 100, c=COLORS[1])
+
+    plt.axis('scaled')
+
     plt.xlim([-1, max_lim])
     plt.ylim([-1, max_lim])
     plt.xlabel(X_LABEL, fontsize=fontsize)
@@ -82,5 +85,5 @@ if __name__ == '__main__':
     sns.despine(offset=0, trim=True, ax=ax)
     plt.tight_layout()
 
-    figure_filebasename = os.path.join(plot_folder, 'random_goals_112')
+    figure_filebasename = os.path.join(plot_folder, 'random_goals_111')
     save_and_close_fig(fig, figure_filebasename)

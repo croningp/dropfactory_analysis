@@ -127,7 +127,7 @@ if __name__ == '__main__':
 
     ## ax1 nice
     ax1.set_xlim([0, 1020])
-    ax1.set_ylim([0, 0.25])
+    ax1.set_ylim([0, 0.3])
 
     ax1.set_xlabel(X_FEATURE_NAME, fontsize=fontsize)
     ax1.set_ylabel(Y_FEATURE_NAME, fontsize=fontsize)
@@ -136,7 +136,7 @@ if __name__ == '__main__':
     sns.despine(offset=10, trim=True, ax=ax1)
 
     ## ax2 nice
-    ax2.set_ylim([0, 0.25])
+    ax2.set_ylim([0, 0.3])
 
     ax2.set_yticks([])
     ax2.set_xticks([])
