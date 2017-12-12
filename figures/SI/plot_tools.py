@@ -62,7 +62,7 @@ def plot_raw_exploration(ax, data, color='b'):
     plt.tight_layout()
 
 
-def plot_density(ax, data):
+def plot_density(ax, data, show_colorbar=False):
 
     x = data['droplet_features'][X_FEATURE_NAME]
     y = data['droplet_features'][Y_FEATURE_NAME]
@@ -70,7 +70,9 @@ def plot_density(ax, data):
     kde_data = np.array([x, y])
     cmap = plt.cm.jet
     plot_kde(kde_data, bounds = [MIN_FEATURE_LIM, MAX_FEATURE_LIM, MIN_FEATURE_LIM, MAX_FEATURE_LIM], bandwidth=0.3, cmap=cmap)
-    # plt.colorbar()
+
+    if show_colorbar:
+        plt.colorbar()
 
     ax.axis('scaled')
 
@@ -104,12 +106,15 @@ def plot_coverage(ax, data, color='b'):
     plt.tight_layout()
 
 
+def clean_array(data_array):
+    return data_array[np.logical_not(np.equal(data_array, None))]
+
 def plot_temperature(ax, data, color='b'):
 
     temperature = np.array(data['xp_info']['temperature'])
 
-    mean_temperature = round(np.mean(temperature), 2)
-    std_temperature = round(np.std(temperature), 2)
+    mean_temperature = round(np.mean(clean_array(temperature)), 2)
+    std_temperature = round(np.std(clean_array(temperature)), 2)
 
     ax.plot(temperature, color=color, linewidth=LINEWIDTH)
     ax.plot([-X_MARGIN_PLOT, 1000+X_MARGIN_PLOT], [mean_temperature, mean_temperature], 'k--')
@@ -128,8 +133,8 @@ def plot_humidity(ax, data, color='b'):
 
     humidity = np.array(data['xp_info']['humidity'])
 
-    mean_humidity = round(np.mean(humidity), 2)
-    std_humidity = round(np.std(humidity), 2)
+    mean_humidity = round(np.mean(clean_array(humidity)), 2)
+    std_humidity = round(np.std(clean_array(humidity)), 2)
 
     ax.plot(humidity, color=color, linewidth=LINEWIDTH)
     ax.plot([-X_MARGIN_PLOT, 1000+X_MARGIN_PLOT], [mean_humidity, mean_humidity], 'k--')
@@ -339,6 +344,7 @@ def plot_properties_platter(data, color='b'):
             plot_distribution_properties(ax, data, k, color=color)
 
     return fig
+
 
 if __name__ == '__main__':
 
