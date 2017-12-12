@@ -50,7 +50,7 @@ def plot_it_all(data, plot_folder, color='b'):
     save_it(fig, plot_folder, 'exploration_raw')
 
     fig, ax = init_single_fig_ax()
-    plot_tools.plot_density(ax, data, show_colorbar=True)
+    plot_tools.plot_density(fig, ax, data, show_colorbar=True)
     save_it(fig, plot_folder, 'exploration_density')
 
     fig, ax = init_single_fig_ax()
@@ -125,11 +125,13 @@ if __name__ == '__main__':
     from datasets.datasets_tools import get_dataset_basepath
 
     dataset_path = get_dataset_basepath()
-    plot_path = os.path.join(HERE_PATH, 'plot')
+    plot_path = os.path.join(HERE_PATH, 'plot', 'per_run')
 
     color_palette = sns.color_palette("Paired")
-    random_params_color = color_palette[1]
-    random_goal_color =  color_palette[5]
+    random_params_color_cold = color_palette[0]
+    random_params_color_hot = color_palette[1]
+    random_goal_color_cold =  color_palette[4]
+    random_goal_color_hot =  color_palette[5]
 
     flatui = ["#9b59b6", "#3498db", "#95a5a6", "#e74c3c", "#34495e", "#2ecc71"]
     color_palette = sns.color_palette(flatui)
@@ -142,9 +144,15 @@ if __name__ == '__main__':
             plot_folder = os.path.split(data_file)[0].replace(dataset_path, plot_path)
 
             if 'random_goal' in plot_folder:
-                color = random_goal_color
+                if '/1' in plot_folder:
+                    color = random_goal_color_hot
+                else:
+                    color = random_goal_color_cold
             elif 'random_params' in plot_folder:
-                color = random_params_color
+                if '/1' in plot_folder:
+                    color = random_params_color_hot
+                else:
+                    color = random_params_color_cold
             else:
                 color = default_color
 

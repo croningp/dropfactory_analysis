@@ -62,17 +62,17 @@ def plot_raw_exploration(ax, data, color='b'):
     plt.tight_layout()
 
 
-def plot_density(ax, data, show_colorbar=False):
+def plot_density(fig, ax, data, show_colorbar=True):
 
     x = data['droplet_features'][X_FEATURE_NAME]
     y = data['droplet_features'][Y_FEATURE_NAME]
 
     kde_data = np.array([x, y])
     cmap = plt.cm.jet
-    plot_kde(kde_data, bounds = [MIN_FEATURE_LIM, MAX_FEATURE_LIM, MIN_FEATURE_LIM, MAX_FEATURE_LIM], bandwidth=0.3, cmap=cmap)
+    cax = plot_kde(ax, kde_data, bounds = [MIN_FEATURE_LIM, MAX_FEATURE_LIM, MIN_FEATURE_LIM, MAX_FEATURE_LIM], bandwidth=0.3, cmap=cmap)
 
     if show_colorbar:
-        plt.colorbar()
+        fig.colorbar(cax, ax=ax)
 
     ax.axis('scaled')
 
@@ -109,7 +109,7 @@ def plot_coverage(ax, data, color='b'):
 def clean_array(data_array):
     return data_array[np.logical_not(np.equal(data_array, None))]
 
-def plot_temperature(ax, data, color='b'):
+def plot_temperature(ax, data, color='b', mean_line=True, print_title=True):
 
     temperature = np.array(data['xp_info']['temperature'])
 
@@ -117,19 +117,21 @@ def plot_temperature(ax, data, color='b'):
     std_temperature = round(np.std(clean_array(temperature)), 2)
 
     ax.plot(temperature, color=color, linewidth=LINEWIDTH)
-    ax.plot([-X_MARGIN_PLOT, 1000+X_MARGIN_PLOT], [mean_temperature, mean_temperature], 'k--')
+    if mean_line:
+        ax.plot([-X_MARGIN_PLOT, 1000+X_MARGIN_PLOT], [mean_temperature, mean_temperature], 'k--')
 
     ax.set_xlim([-X_MARGIN_PLOT, 1000+X_MARGIN_PLOT])
     ax.set_ylim([20, 30])
     ax.set_xlabel('Experiment Number', fontsize=fontsize)
     ax.set_ylabel('Temperature / ${^o}C$', fontsize=fontsize)
 
-    ax.set_title('T = {}$\pm${} {}'.format(mean_temperature, std_temperature, '${^o}C$'), fontsize=fontsize)
+    if print_title:
+        ax.set_title('T = {}$\pm${} {}'.format(mean_temperature, std_temperature, '${^o}C$'), fontsize=fontsize)
 
     plt.tight_layout()
 
 
-def plot_humidity(ax, data, color='b'):
+def plot_humidity(ax, data, color='b', mean_line=True, print_title=True):
 
     humidity = np.array(data['xp_info']['humidity'])
 
@@ -137,14 +139,16 @@ def plot_humidity(ax, data, color='b'):
     std_humidity = round(np.std(clean_array(humidity)), 2)
 
     ax.plot(humidity, color=color, linewidth=LINEWIDTH)
-    ax.plot([-X_MARGIN_PLOT, 1000+X_MARGIN_PLOT], [mean_humidity, mean_humidity], 'k--')
+    if mean_line:
+        ax.plot([-X_MARGIN_PLOT, 1000+X_MARGIN_PLOT], [mean_humidity, mean_humidity], 'k--')
 
     ax.set_xlim([-X_MARGIN_PLOT, 1000+X_MARGIN_PLOT])
     ax.set_ylim([0, 100])
     ax.set_xlabel('Experiment Number', fontsize=fontsize)
     ax.set_ylabel('Humidity / %', fontsize=fontsize)
 
-    ax.set_title('H = {}$\pm${} {}'.format(mean_humidity, std_humidity, '%'), fontsize=fontsize)
+    if print_title:
+        ax.set_title('H = {}$\pm${} {}'.format(mean_humidity, std_humidity, '%'), fontsize=fontsize)
 
     plt.tight_layout()
 
@@ -233,7 +237,7 @@ def plot_distribution_features(ax, data, feature_name, color='b'):
     if feature_name == 'total_droplet_path_length':
         values = values / 1000.0 # in m
         bin_range = [0, 6]
-        feature_name_name = 'Droplet Path Lenght / $m$'
+        feature_name_name = 'Droplet Path Length / $m$'
 
     if feature_name == 'average_spread':
         bin_range = [0, 8]
@@ -267,7 +271,7 @@ def plot_exploration_platter(data, color='b'):
         plot_raw_exploration(ax, data, color)
 
         ax = plt.subplot(N_ROW,N_COLUMN,2)
-        plot_density(ax, data)
+        plot_density(fig, ax, data, show_colorbar=True)
 
         ax = plt.subplot(N_ROW,N_COLUMN,3)
         plot_distribution_features(ax, data, 'average_speed', color=color)

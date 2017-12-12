@@ -35,7 +35,7 @@ def plot_coverage_2D(ax, X, radius, color='#339933', alpha=1):
         ax.add_patch(patch)
 
 
-def plot_kde(kde_data, bounds = [0, 1, 0, 1], resolution=100j, bandwidth=None, cmap=plt.cm.gist_earth_r):
+def plot_kde(ax, kde_data, bounds = [0, 1, 0, 1], resolution=100j, bandwidth=None, cmap=plt.cm.gist_earth_r):
 
     XMIN = bounds[0]
     XMAX = bounds[1]
@@ -52,4 +52,6 @@ def plot_kde(kde_data, bounds = [0, 1, 0, 1], resolution=100j, bandwidth=None, c
 
     Z = np.reshape(kernel(POSITIONS).T, X.shape)
 
-    plt.imshow(np.rot90(Z), cmap=cmap, extent=[XMIN, XMAX, YMIN, YMAX])
+    cax = ax.imshow(np.rot90(Z), cmap=cmap, extent=[XMIN, XMAX, YMIN, YMAX])
+
+    return cax
