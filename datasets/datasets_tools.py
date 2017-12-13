@@ -32,6 +32,12 @@ def format_data(raw_data):
         data['droplet_features'][k] = [xp['droplet_features'][k] for xp in experiments]
 
     ##
+    if experiments[0]['explauto_info'] is not None:
+        data['algorithm_info'] = {}
+        for k in experiments[0]['explauto_info'].keys():
+            data['algorithm_info'][k] = [xp['explauto_info'][k] for xp in experiments]
+
+    ##
     data['droplet_composition'] = {}
     data['droplet_composition']['dep'] = []
     data['droplet_composition']['octanol'] = []

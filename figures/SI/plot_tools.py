@@ -43,6 +43,28 @@ BIN_SIZE = 20
 
 LINEWIDTH = 3
 
+
+def plot_goals(ax, data, color='b'):
+
+    goals = np.array(data['algorithm_info']['targeted_features'])
+    x = goals[:, 0] / X_NORMALIZATION_RATIO
+    y = goals[:, 1] / Y_NORMALIZATION_RATIO
+
+    ax.scatter(x, y, 100, c=color)
+
+    ax.axis('scaled')
+
+    ax.set_xlim([MIN_FEATURE_LIM, MAX_FEATURE_LIM])
+    ax.set_ylim([MIN_FEATURE_LIM, MAX_FEATURE_LIM])
+    ax.set_xlabel(X_FEATURE_LABEL, fontsize=fontsize)
+    ax.set_ylabel(Y_FEATURE_LABEL, fontsize=fontsize)
+
+    ax.set_title('Goals', fontsize=fontsize)
+
+    plt.tight_layout()
+
+
+
 def plot_raw_exploration(ax, data, color='b'):
 
     x = data['droplet_features'][X_FEATURE_NAME]
@@ -72,7 +94,7 @@ def plot_density(fig, ax, data, show_colorbar=True):
     cax = plot_kde(ax, kde_data, bounds = [MIN_FEATURE_LIM, MAX_FEATURE_LIM, MIN_FEATURE_LIM, MAX_FEATURE_LIM], bandwidth=0.3, cmap=cmap)
 
     if show_colorbar:
-        fig.colorbar(cax, ax=ax)
+        cbar = fig.colorbar(cax, ax=ax)
 
     ax.axis('scaled')
 
@@ -84,6 +106,8 @@ def plot_density(fig, ax, data, show_colorbar=True):
     ax.set_title('Observations Density', fontsize=fontsize)
 
     plt.tight_layout()
+
+    return cax, cbar
 
 
 def plot_coverage(ax, data, color='b'):
@@ -364,8 +388,9 @@ if __name__ == '__main__':
 
     # fig  = plt.figure(figsize=(8,8))
     # with sns.axes_style("ticks"):
-        # ax = plt.subplot(111)
+    #     ax = plt.subplot(111)
 
+    # plot_goals(ax, data)
     # plot_raw_exploration(ax, data)
     # plot_density(ax, data)
     # plot_coverage(ax, data)

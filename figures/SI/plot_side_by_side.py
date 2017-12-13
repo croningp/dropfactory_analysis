@@ -145,6 +145,41 @@ def plot_side_density(plot_folder, data_left, data_right, color_left, color_righ
 
     save_it(fig, plot_folder, 'exploration_density')
 
+def plot_side_density_same_scale(plot_folder, data_left, data_right, color_left, color_right, title_left, title_right):
+
+    fig, ax1, ax2 = init_side_fig_ax()
+
+    cax1, cbar1 = plot_tools.plot_density(fig, ax1, data_left, show_colorbar=True)
+    ax1.set_title(title_left, fontsize=fontsize)
+
+    cax2, cbar2 = plot_tools.plot_density(fig, ax2, data_right, show_colorbar=True)
+    ax2.set_title(title_right, fontsize=fontsize)
+
+    clim1 = cbar1.get_clim()
+    clim2 = cbar2.get_clim()
+
+    ticks1 = [float(t.get_text()) for t in cbar1.ax.get_yticklabels()]
+    ticks2 = [float(t.get_text()) for t in cbar2.ax.get_yticklabels()]
+
+    if ticks1[-1] < ticks2[-1]:
+        cbar_ticks = ticks1
+    else:
+        cbar_ticks = ticks2
+
+    min_clim = min(clim1[0], clim2[0])
+    max_clim = min(clim1[1], clim2[1])
+    clim = (min_clim, max_clim)
+    cbar1.set_clim(clim)
+    cbar1.set_ticks(cbar_ticks)
+    cbar1.draw_all()
+
+    cbar2.set_clim(clim)
+    cbar2.set_ticks(cbar_ticks)
+    cbar2.draw_all()
+
+    plt.tight_layout()
+
+    save_it(fig, plot_folder, 'exploration_density_same_scale')
 
 def plot_side_coverage(plot_folder, data_left, data_right, color_left, color_right, title_left, title_right):
 
@@ -225,6 +260,7 @@ def plot_all_side(plot_path, **dict_kws):
 
     plot_side_exploration(plot_path, **dict_kws)
     plot_side_density(plot_path, **dict_kws)
+    plot_side_density_same_scale(plot_path, **dict_kws)
     plot_side_coverage(plot_path, **dict_kws)
 
     for oil_name in oil_names:
@@ -254,6 +290,8 @@ if __name__ == '__main__':
 
     for seed in ['110', '111', '112', '210', '211', '212']:
         plot_path = os.path.join(root_plot_path, 'params_vs_goal', seed)
+        print plot_path
+
         dataset_filename_left = forge_dataset_filename('random_params', seed)
         dataset_filename_right = forge_dataset_filename('random_goal', '{}_speed_division'.format(seed))
 
@@ -264,6 +302,8 @@ if __name__ == '__main__':
     for method in ['random_params', 'random_goal']:
         for seed_ext in ['0', '1', '2']:
             plot_path = os.path.join(root_plot_path, 'cold_vs_hot', '{}_{}'.format(method, seed_ext))
+            print plot_path
+
             if method == 'random_goal':
                 dataset_filename_left = forge_dataset_filename(method, '21{}_speed_division'.format(seed_ext))
                 dataset_filename_right = forge_dataset_filename(method, '11{}_speed_division'.format(seed_ext))

@@ -44,6 +44,12 @@ def save_it(fig, plot_folder, filebasename):
 
 def plot_it_all(data, plot_folder, color='b'):
 
+    ## algorithm_info
+    if 'algorithm_info' in data:
+        fig, ax = init_single_fig_ax()
+        plot_tools.plot_goals(ax, data, color=color)
+        save_it(fig, plot_folder, 'algorithm_goals')
+
     ## exploration
     fig, ax = init_single_fig_ax()
     plot_tools.plot_raw_exploration(ax, data, color=color)
@@ -139,6 +145,7 @@ if __name__ == '__main__':
 
     data_files = filetools.list_files(dataset_path, 'data.json')
     for data_file in data_files:
+        print data_file
         data = load_dataset(data_file)
         if len(data['paths']) == 1000:
             plot_folder = os.path.split(data_file)[0].replace(dataset_path, plot_path)
