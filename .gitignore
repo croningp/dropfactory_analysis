@@ -22,3 +22,5 @@ csv/**/*.csv
 properties/*.json
 /datasets/**/*.json
 /figures/**/*.json
+/figures/speed_sort/csv_all
+/figures/speed_sort/csv
