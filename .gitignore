@@ -24,3 +24,4 @@ properties/*.json
 /figures/**/*.json
 /figures/speed_sort/csv_all
 /figures/speed_sort/csv
+/analysis/dye_release/data/
