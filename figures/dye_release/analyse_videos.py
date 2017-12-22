@@ -15,6 +15,7 @@ from shutil import copyfile
 import filetools
 
 from utils.tools import save_to_json
+from utils.tools import read_from_json
 
 from chemobot_tools.droplet_tracking.tools import get_median_dish_from_video
 from chemobot_tools.droplet_tracking.tools import create_dish_arena
@@ -164,6 +165,15 @@ if __name__ == '__main__':
         filetools.ensure_dir(save_folder)
         save_to_json(results, save_filename)
 
+        ## temperatures
+        run_info_filename = video_filename.replace('video.avi', 'run_info.json')
+
+        temperature_info = {}
+        run_info_data = read_from_json(run_info_filename)
+        temperature_info['temperature'] = run_info_data['temperature']
+
+        save_filename = os.path.join(save_folder, 'temperature.json')
+        save_to_json(temperature_info, save_filename)
 
     # video_filename = '/home/group/orkney1/Chemobot/dropfactory_exploration/realworld_experiments/manual_exploration/dye_release_xp/experiments/AC_19.0_LJP5-22-Ey/00000/video.avi'
     #
