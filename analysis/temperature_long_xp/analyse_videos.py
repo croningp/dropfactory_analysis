@@ -310,7 +310,10 @@ def check_xp_folder_processed(xp_folder, filename):
 
 if __name__ == '__main__':
 
-    LONG_XP_PATH = '/home/group/orkney1/Chemobot/dropfactory_exploration/realworld_experiments/manual_exploration/temperature_long_xp/experiments/'
+
+    from constants import ORKNEY_XP_FOLDER
+
+    LONG_XP_PATH = os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration/temperature_long_xp/experiments/')
 
     files = filetools.list_files(LONG_XP_PATH, [DROPLET_INFO_FILENAME])
 

@@ -354,7 +354,7 @@ def plot_features_platter(data, color='b'):
     fig  = plt.figure(figsize=(N_COLUMN*8,N_ROW*8))
     with sns.axes_style("ticks"):
         for i, k in enumerate(data['droplet_features'].keys()):
-            ax = plt.subplot(N_ROW,N_COLUMN,i)
+            ax = plt.subplot(N_ROW,N_COLUMN,i+1)
             plot_distribution_features(ax, data, k, color=color)
 
     return fig
@@ -368,7 +368,7 @@ def plot_properties_platter(data, color='b'):
     fig  = plt.figure(figsize=(N_COLUMN*8,N_ROW*8))
     with sns.axes_style("ticks"):
         for i, k in enumerate(data['droplet_properties'].keys()):
-            ax = plt.subplot(N_ROW,N_COLUMN,i)
+            ax = plt.subplot(N_ROW,N_COLUMN,i+1)
             plot_distribution_properties(ax, data, k, color=color)
 
     return fig

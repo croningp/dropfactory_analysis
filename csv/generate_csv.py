@@ -21,15 +21,15 @@ if __name__ == '__main__':
     DATASET_PATH = get_dataset_basepath()
     dataset_filenames = filetools.list_files(DATASET_PATH, ['data.json'])
 
-    full_dataset = None
+    # full_dataset = None
 
     for filename in dataset_filenames:
         data = load_dataset(filename)
 
-        if full_dataset is None:
-            full_dataset = data
-        else:
-            full_dataset = join_datasets(full_dataset, data)
+        # if full_dataset is None:
+        #     full_dataset = data
+        # else:
+        #     full_dataset = join_datasets(full_dataset, data)
 
         # buld file name
         rel_path = os.path.relpath(filename, DATASET_PATH)
@@ -41,5 +41,5 @@ if __name__ == '__main__':
         build_csv(data, csv_filename)
 
     ##
-    full_csv_filename = os.path.join(HERE_PATH, 'full.csv')
-    build_csv(full_dataset, full_csv_filename)
+    # full_csv_filename = os.path.join(HERE_PATH, 'full.csv')
+    # build_csv(full_dataset, full_csv_filename)

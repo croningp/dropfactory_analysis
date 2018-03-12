@@ -147,7 +147,9 @@ if __name__ == '__main__':
 
     import filetools
 
-    XP_PATH = '/home/group/orkney1/Chemobot/dropfactory_exploration/realworld_experiments/manual_exploration/dye_release_xp/experiments'
+    from constants import ORKNEY_XP_FOLDER
+
+    XP_PATH = os.path.join(ORKNEY_XP_FOLDER, 'manual_exploration/dye_release_xp/experiments')
 
     DATA_PATH = os.path.join(HERE_PATH, 'data')
 
