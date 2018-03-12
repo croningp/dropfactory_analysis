@@ -34,7 +34,7 @@ SEEDS = ['110', '111', '112']
 
 LEGEND_NAMES = ['Random Experiments', 'Goal Babbling']
 X_FEATURE_NAME = 'Number of experiments'
-Y_FEATURE_NAME = 'Exploration Measure / $AU$'
+Y_FEATURE_NAME = '% Exploration'
 
 color_palette = sns.color_palette("Paired")
 COLORS = [color_palette[1], color_palette[5]]
@@ -63,6 +63,10 @@ if __name__ == '__main__':
     plt.xlabel(X_FEATURE_NAME, fontsize=fontsize)
     plt.ylabel(Y_FEATURE_NAME, fontsize=fontsize)
     legend = plt.legend(legend_names, fontsize=26, bbox_to_anchor=(1, 1), loc=2, borderaxespad=0.)
+
+    plt.xlim([0, 1020])
+    plt.ylim([0, 1])
+
     plt.tight_layout()
 
     figure_filebasename = os.path.join(plot_folder, 'all_coverages')
@@ -127,7 +131,7 @@ if __name__ == '__main__':
 
     ## ax1 nice
     ax1.set_xlim([0, 1020])
-    ax1.set_ylim([0, 0.3])
+    ax1.set_ylim([0, 1])
 
     ax1.set_xlabel(X_FEATURE_NAME, fontsize=fontsize)
     ax1.set_ylabel(Y_FEATURE_NAME, fontsize=fontsize)
@@ -136,7 +140,7 @@ if __name__ == '__main__':
     sns.despine(offset=10, trim=True, ax=ax1)
 
     ## ax2 nice
-    ax2.set_ylim([0, 0.3])
+    ax2.set_ylim([0, 1])
 
     ax2.set_yticks([])
     ax2.set_xticks([])
