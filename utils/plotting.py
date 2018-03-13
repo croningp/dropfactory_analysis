@@ -8,6 +8,8 @@ import seaborn as sns
 from shapely.geometry import Point
 from descartes import PolygonPatch
 
+from matplotlib.collections import LineCollection
+
 
 def save_and_close_fig(fig, filebasename, exts=['.png', '.eps', '.svg'], dpi=100, legend=None):
     for ext in exts:
@@ -55,3 +57,24 @@ def plot_kde(ax, kde_data, bounds = [0, 1, 0, 1], resolution=100j, bandwidth=Non
     cax = ax.imshow(np.rot90(Z), cmap=cmap, extent=[XMIN, XMAX, YMIN, YMAX])
 
     return cax
+
+
+def plot_convex_hull(hull):
+    for i in range(len(hull.vertices)):
+        x = [hull.points[hull.vertices[i-1],0], hull.points[hull.vertices[i],0]]
+        y = [hull.points[hull.vertices[i-1],1], hull.points[hull.vertices[i], 1]]
+        plt.plot(x, y, 'r--', lw=2)
+
+
+
+def plot_concave_hull(concave_hull, edge_points, X):
+
+    points = [Point(x) for x in X]
+
+    #print concave_hull
+    lines = LineCollection(edge_points)
+    plt.gca().add_collection(lines)
+    delaunay_points = np.array([point.coords[0]
+                                for point in points])
+    plt.plot(delaunay_points[:,0], delaunay_points[:,1],
+            'o', hold=1, color='#f16824')

@@ -16,6 +16,7 @@ analysis/pH_long_xp/time_feature_csv
 analysis/pH_long_xp/time_speed_csv
 analysis/pH_long_xp/tmp
 /analysis/speed_division/coverage/data/coverages.json
+/analysis/speed_division/hull/data/*.json
 /analysis/temperature_analysis/csv/
 /analysis/temperature_prediction/data
 csv/**/*.csv
