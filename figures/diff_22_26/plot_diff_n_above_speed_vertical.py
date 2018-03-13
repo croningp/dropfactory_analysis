@@ -104,13 +104,13 @@ if __name__ == '__main__':
     ##
     BAR_WIDTH = 0.35       # the width of the bars
 
-    fig = plt.figure(figsize=(16, 8))
+    fig = plt.figure(figsize=(8, 16))
     with sns.axes_style("ticks"):
         ax = plt.subplot(111)
 
     def plot_rect(ax, pos, data, color):
         err_color = sns.xkcd_palette(['slate grey'])[0]
-        return ax.barh(pos, np.mean(data), BAR_WIDTH, color=color, xerr=np.std(data), error_kw=dict(ecolor=err_color, lw=2, capsize=5, capthick=2))
+        return ax.bar(pos, np.mean(data), BAR_WIDTH, color=color, yerr=np.std(data), error_kw=dict(ecolor=err_color, lw=2, capsize=5, capthick=2))
 
     color_palette = sns.color_palette("Paired")
     rects1 = plot_rect(ax, 2, RESULTS['random_params']['NB_22'], color_palette[0])
@@ -118,28 +118,28 @@ if __name__ == '__main__':
     rects3 = plot_rect(ax, 1, RESULTS['random_goal']['NB_22'], color_palette[4])
     rects4 = plot_rect(ax, 1-BAR_WIDTH, RESULTS['random_goal']['NB_26'], color_palette[5])
 
-    x_ticks_value = []
-    x_ticks_value.append(0)
-    # x_ticks_value.append(np.mean(RESULTS['random_params']['NB_22']))
-    # x_ticks_value.append(np.mean(RESULTS['random_params']['NB_26']))
-    x_ticks_value.append(np.mean(RESULTS['random_goal']['NB_22']))
-    x_ticks_value.append(np.mean(RESULTS['random_goal']['NB_26']))
+    y_ticks_value = []
+    y_ticks_value.append(0)
+    y_ticks_value.append(np.mean(RESULTS['random_params']['NB_22']))
+    y_ticks_value.append(np.mean(RESULTS['random_params']['NB_26']))
+    y_ticks_value.append(np.mean(RESULTS['random_goal']['NB_22']))
+    y_ticks_value.append(np.mean(RESULTS['random_goal']['NB_26']))
 
-    ax.set_xticks(x_ticks_value)
-    ax.set_xticklabels([str(int(x)) for x in x_ticks_value])
+    ax.set_yticks(y_ticks_value)
+    ax.set_yticklabels([str(int(y)) for y in y_ticks_value])
 
-    ax.set_yticks([1, 2])
-    ax.set_yticklabels(['Goal Babbling', 'Random Experiments'])
+    ax.set_xticks([1, 2])
+    ax.set_xticklabels(['Goal Babbling', 'Random Experiments'])
 
-    # ax.set_xlim([0, 350])
-    ax.set_ylim([BAR_WIDTH, 2+BAR_WIDTH])
+    # ax.set_xlim([BAR_WIDTH, 2+BAR_WIDTH])
+    # ax.set_ylim([0, 350])
 
     t = 'No. of experiments with droplet speed > {} {}'.format(THRESHOLD, '$mm.s^{-1}$')
-    ax.set_xlabel(t, fontsize=fontsize)
+    ax.set_ylabel(t, fontsize=fontsize)
 
     sns.despine(offset=20, trim=True, left=True, ax=ax)
     plt.tight_layout()
 
 
-    figure_filebasename = os.path.join(plot_folder, 'diff_22_26_n_above_speed')
+    figure_filebasename = os.path.join(plot_folder, 'diff_22_26_n_above_speed_vertical')
     save_and_close_fig(fig, figure_filebasename)

@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
     yticks = np.sort([0.0, final_coverage_random_params, final_coverage_random_goal])
     ax1.set_yticks(yticks)
-    ax1.set_yticklabels(['{0:.2f}'.format(ytick) for ytick in yticks])
+    ax1.set_yticklabels(['{:0.2f}'.format(ytick) for ytick in yticks])
 
     #
     handles = []

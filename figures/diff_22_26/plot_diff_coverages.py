@@ -98,9 +98,9 @@ if __name__ == '__main__':
     ax.set_yticklabels(['Goal Babbling', 'Random Experiments'])
 
     # ax.set_xlim([0, 350])
-    ax.set_ylim([1-BAR_WIDTH, 2+BAR_WIDTH])
+    ax.set_ylim([BAR_WIDTH, 2+BAR_WIDTH])
 
-    t = 'Exploration Measure / $AU$'
+    t = '% Exploration'
     ax.set_xlabel(t, fontsize=fontsize)
 
     sns.despine(offset=20, trim=True, left=True, ax=ax)
