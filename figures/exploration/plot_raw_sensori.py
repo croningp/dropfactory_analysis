@@ -43,47 +43,30 @@ if __name__ == '__main__':
 
     # we plot each subfigure independently and will join them in inkscape
 
-    # random params, seed 112
-    fig  = plt.figure(figsize=(8,8))
-    with sns.axes_style("ticks"):
-        ax = plt.subplot(111)
+    METHOD_NAMES = ['random_params', 'random_goal']
+    SEEDS = ['110', '111', '112']
 
-    data = load_dataset(forge_dataset_filename('random_params', '111'))
-    x = data['droplet_features'][X_FEATURE_NAME]
-    y = data['droplet_features'][Y_FEATURE_NAME]
+    for i_method_name, method_name in enumerate(METHOD_NAMES):
+        for i_seed, seed in enumerate(SEEDS):
+            dataset_seed = seed
+            if method_name != 'random_params':
+                dataset_seed = '{}_speed_division'.format(seed)
+            data = load_dataset(forge_dataset_filename(method_name, dataset_seed))
+            x = data['droplet_features'][X_FEATURE_NAME]
+            y = data['droplet_features'][Y_FEATURE_NAME]
 
-    plt.scatter(x, y, 100, c=COLORS[0])
-    plt.xlim([-1, max_lim])
-    plt.ylim([-1, max_lim])
-    plt.xlabel(X_LABEL, fontsize=fontsize)
-    plt.ylabel(Y_LABEL, fontsize=fontsize)
+            fig  = plt.figure(figsize=(8,8))
+            with sns.axes_style("ticks"):
+                ax = plt.subplot(111)
 
-    sns.despine(offset=0, trim=True, ax=ax)
-    plt.tight_layout()
+            plt.scatter(x, y, 100, c=COLORS[i_method_name])
+            plt.xlim([-1, max_lim])
+            plt.ylim([-1, max_lim])
+            plt.xlabel(X_LABEL, fontsize=fontsize)
+            plt.ylabel(Y_LABEL, fontsize=fontsize)
 
-    figure_filebasename = os.path.join(plot_folder, 'random_params_111')
-    save_and_close_fig(fig, figure_filebasename)
+            sns.despine(offset=0, trim=True, ax=ax)
+            plt.tight_layout()
 
-    # random goals, seed 112
-    fig  = plt.figure(figsize=(8,8))
-    with sns.axes_style("ticks"):
-        ax = plt.subplot(111)
-
-    data = load_dataset(forge_dataset_filename('random_goal', '111_speed_division'))
-    x = data['droplet_features'][X_FEATURE_NAME]
-    y = data['droplet_features'][Y_FEATURE_NAME]
-
-    plt.scatter(x, y, 100, c=COLORS[1])
-
-    plt.axis('scaled')
-
-    plt.xlim([-1, max_lim])
-    plt.ylim([-1, max_lim])
-    plt.xlabel(X_LABEL, fontsize=fontsize)
-    plt.ylabel(Y_LABEL, fontsize=fontsize)
-
-    sns.despine(offset=0, trim=True, ax=ax)
-    plt.tight_layout()
-
-    figure_filebasename = os.path.join(plot_folder, 'random_goals_111')
-    save_and_close_fig(fig, figure_filebasename)
+            figure_filebasename = os.path.join(plot_folder, '{}_{}'.format(method_name, seed))
+            save_and_close_fig(fig, figure_filebasename)

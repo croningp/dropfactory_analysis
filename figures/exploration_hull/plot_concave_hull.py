@@ -6,7 +6,7 @@ HERE_PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe
 
 # adding parent directory to path, so we can access the utils easily
 import sys
-root_path = os.path.join(HERE_PATH, '../../..')
+root_path = os.path.join(HERE_PATH, '../..')
 sys.path.append(root_path)
 
 import numpy as np
@@ -20,6 +20,9 @@ fontsize = 30
 matplotlib.rc('xtick', labelsize=26)
 matplotlib.rc('ytick', labelsize=26)
 matplotlib.rcParams.update({'font.size': fontsize})
+
+linewidth = 4
+helpers_linewidth = 2
 
 import filetools
 from utils.tools import read_from_json
@@ -38,6 +41,8 @@ if __name__ == '__main__':
     plot_folder = os.path.join(HERE_PATH, 'plot_concave')
     filetools.ensure_dir(plot_folder)
 
+    plt.ion()
+
     ##
     fig = plt.figure(figsize=(10, 8))
 
@@ -47,7 +52,7 @@ if __name__ == '__main__':
 
             cov = np.array(coverage_data[method_name][seed])
             cov = cov / coverage_data['global_coverage']
-            plt.plot(cov, linewidth=3)
+            plt.plot(cov, linewidth=linewidth)
 
             legend_names.append('{} {}'.format(method_name, seed))
 
@@ -62,32 +67,51 @@ if __name__ == '__main__':
 
     ##
     fig = plt.figure(figsize=(10, 8))
+    ax = plt.subplot(111)
 
-    legend_names = []
+    color_palette = sns.color_palette("Paired")
+    COLORS = [color_palette[1], color_palette[5]]
+
+    mean_coverage_data = {}
     for i_method_name, method_name in enumerate(METHOD_NAMES):
         coverages = []
         for i_seed, seed in enumerate(SEEDS):
             cov = np.array(coverage_data[method_name][seed])
             cov = cov / coverage_data['global_coverage']
-            coverages.append(cov)
+            cov_percent = 100 * cov
+            coverages.append(cov_percent)
 
-        y = np.mean(coverages, 0)
-        yerr = np.std(coverages, 0)
-        x = np.array(range(y.size)) + 1
+        mean_coverage_data[method_name] = np.mean(coverages, axis=0)
 
-        ind = np.linspace(0, y.size-1, 11, dtype=int)
-        y = y[ind]
-        yerr = yerr[ind]
-        x = x[ind]
+        sns.tsplot(coverages, color=COLORS[i_method_name], linewidth=linewidth)
 
-        plt.errorbar(x, y, yerr=yerr, linewidth=3)
+    final_coverage_random_params = mean_coverage_data['random_params'][-1]
+    final_coverage_random_goal = mean_coverage_data['random_goal'][-1]
+
+    index_above_final_coverage_random_params = np.where(np.array(mean_coverage_data['random_goal']) > final_coverage_random_params)
+    intersection_iteration = index_above_final_coverage_random_params[0][0] + 1 # index starts at 0, iteration number at 1
+
+    line_color = sns.xkcd_palette(['slate grey'])[0]
+    ax.plot([0, 1000], [final_coverage_random_params, final_coverage_random_params], c=line_color, linewidth=helpers_linewidth, linestyle='--')
+    ax.plot([0, 1000], [final_coverage_random_goal, final_coverage_random_goal], c=line_color, linewidth=helpers_linewidth, linestyle='--')
+    ax.plot([intersection_iteration, intersection_iteration], [0, final_coverage_random_params], c=line_color, linewidth=helpers_linewidth, linestyle='--')
+
+    xticks = np.sort([0, 500, 1000, intersection_iteration])
+    ax.set_xticks(xticks)
+    ax.set_xticklabels(xticks)
+
+    yticks = np.sort([0, final_coverage_random_params, 50, final_coverage_random_goal, 100])
+    ax.set_yticks(yticks)
+    ax.set_yticklabels(['{:.0f} %'.format(ytick) for ytick in yticks])
 
     plt.xlim([0, 1020])
-    plt.ylim([0, 1])
+    plt.ylim([0, 100])
 
-    plt.xlabel('Iterations', fontsize=fontsize)
-    plt.ylabel('Explored Area', fontsize=fontsize)
+    plt.xlabel('Number of experiments', fontsize=fontsize)
+    plt.ylabel('% Explored', fontsize=fontsize)
     plt.legend(METHOD_NAMES, fontsize=fontsize, loc=2)
+
+    sns.despine(offset=10, trim=True, ax=ax)
     plt.tight_layout()
 
     figure_filebasename = os.path.join(plot_folder, 'mean_coverages')

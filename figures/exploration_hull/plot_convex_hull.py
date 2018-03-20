@@ -6,7 +6,7 @@ HERE_PATH = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe
 
 # adding parent directory to path, so we can access the utils easily
 import sys
-root_path = os.path.join(HERE_PATH, '../../..')
+root_path = os.path.join(HERE_PATH, '../..')
 sys.path.append(root_path)
 
 import numpy as np
