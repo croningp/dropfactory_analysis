@@ -100,6 +100,22 @@ if __name__ == '__main__':
         RESULTS[method_name]['TEMP_22'] = temperatures
 
 
+    ##
+    import scipy
+    print 'random 22: mean {} / std {}'.format(np.mean(RESULTS['random_params']['NB_22']), np.std(RESULTS['random_params']['NB_22']))
+    print 'random 26: mean {} / std {}'.format(np.mean(RESULTS['random_params']['NB_26']), np.std(RESULTS['random_params']['NB_26']))
+    print 'goal babbling 22: mean {} / std {}'.format(np.mean(RESULTS['random_goal']['NB_22']), np.std(RESULTS['random_goal']['NB_22']))
+    print 'goal babbling 26: mean {} / std {}'.format(np.mean(RESULTS['random_goal']['NB_26']), np.std(RESULTS['random_goal']['NB_26']))
+
+    print '### random 22 vs random 26'
+    print scipy.stats.ttest_ind(RESULTS['random_params']['NB_22'], RESULTS['random_params']['NB_26'], equal_var=False)
+    print '### goal babbling 22 vs goal babbling 26'
+    print scipy.stats.ttest_ind(RESULTS['random_goal']['NB_22'], RESULTS['random_goal']['NB_26'], equal_var=False)
+    print '### random 22 vs goal babbling 22'
+    print scipy.stats.ttest_ind(RESULTS['random_params']['NB_22'], RESULTS['random_goal']['NB_22'], equal_var=False)
+    print '### random 26 vs goal babbling 26'
+    print scipy.stats.ttest_ind(RESULTS['random_params']['NB_26'], RESULTS['random_goal']['NB_26'], equal_var=False)
+
 
     ##
     BAR_WIDTH = 0.35       # the width of the bars

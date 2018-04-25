@@ -79,7 +79,7 @@ if __name__ == '__main__':
     linewidth = 4
 
     ##
-    fig = plt.figure(figsize=(16,8))
+    fig = plt.figure(figsize=(8,8))
     ax = plt.subplot(111)
 
     plt.plot([-1, 21], [0, 0], 'k--')
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     save_and_close_fig(fig, figure_filebasename)
 
     ##
-    fig = plt.figure(figsize=(16,8))
+    fig = plt.figure(figsize=(8,8))
     ax = plt.subplot(111)
 
     plt.plot([-1, 21], [0, 0], 'k--')

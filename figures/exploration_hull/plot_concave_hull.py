@@ -10,6 +10,7 @@ root_path = os.path.join(HERE_PATH, '../..')
 sys.path.append(root_path)
 
 import numpy as np
+import scipy
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -73,17 +74,30 @@ if __name__ == '__main__':
     COLORS = [color_palette[1], color_palette[5]]
 
     mean_coverage_data = {}
+    std_coverage_data = {}
+    final_coverage = {}
     for i_method_name, method_name in enumerate(METHOD_NAMES):
         coverages = []
+        final_coverage[method_name] = []
         for i_seed, seed in enumerate(SEEDS):
             cov = np.array(coverage_data[method_name][seed])
             cov = cov / coverage_data['global_coverage']
             cov_percent = 100 * cov
             coverages.append(cov_percent)
+            final_coverage[method_name].append(cov_percent[-1])
 
         mean_coverage_data[method_name] = np.mean(coverages, axis=0)
+        std_coverage_data[method_name] = np.std(coverages, axis=0)
+
+        print '###'
+        print method_name
+        print 'mean {}'.format(np.mean(coverages, axis=0)[-1])
+        print 'std {}'.format(np.std(coverages, axis=0)[-1])
 
         sns.tsplot(coverages, color=COLORS[i_method_name], linewidth=linewidth)
+
+    print '###'
+    print scipy.stats.ttest_ind(final_coverage['random_params'], final_coverage['random_goal'], equal_var=False)
 
     final_coverage_random_params = mean_coverage_data['random_params'][-1]
     final_coverage_random_goal = mean_coverage_data['random_goal'][-1]
