@@ -16,6 +16,7 @@ import filetools
 
 from utils.tools import save_to_json
 from utils.tools import read_from_json
+from utils.plotting import save_and_close_fig
 
 from chemobot_tools.droplet_tracking.tools import get_median_dish_from_video
 from chemobot_tools.droplet_tracking.tools import create_dish_arena

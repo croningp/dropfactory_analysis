@@ -17,6 +17,7 @@ import seaborn as sns
 
 from utils.plotting import plot_kde
 from utils.exploration import compute_explored_volume
+from utils.exploration import compute_volume_concave_hull
 
 
 # design figure
@@ -36,6 +37,8 @@ MAX_FEATURE_LIM = 21.5
 
 X_NORMALIZATION_RATIO = 1.0/20.0
 Y_NORMALIZATION_RATIO = 1.0/20.0
+
+ALPHA = 15
 RADIUS_COVERAGE = 0.02
 
 X_MARGIN_PLOT = 20
@@ -116,9 +119,11 @@ def plot_coverage(ax, data, color='b'):
     y = np.array(data['droplet_features'][Y_FEATURE_NAME]) * Y_NORMALIZATION_RATIO
 
     X = np.array([x, y]).T
-    coverage = compute_explored_volume(X, RADIUS_COVERAGE)
+    # coverage = compute_explored_volume(X, RADIUS_COVERAGE)
+    # ax.plot(coverage, color=color, linewidth=LINEWIDTH)
 
-    ax.plot(coverage, color=color, linewidth=LINEWIDTH)
+    volumes, concave_hull, edge_points = compute_volume_concave_hull(X, ALPHA)
+    ax.plot(volumes, color=color, linewidth=LINEWIDTH)
 
     ax.set_xlim([-X_MARGIN_PLOT, 1000+X_MARGIN_PLOT])
     ax.set_ylim([0, 0.35])

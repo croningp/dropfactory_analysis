@@ -175,5 +175,16 @@ if __name__ == '__main__':
     ## print info needed
 
     print '###'
+
+    print len(y)
+
+    print datasets['droplet_composition']['norm_json_form'][index[0]]
+
+    print best_params
+
     print 'Residual mean = {}'.format(mean_residual)
     print 'Residual std = {}'.format(std_residual)
+
+    from scipy.stats.stats import pearsonr
+
+    print pearsonr(y, y_pred)
