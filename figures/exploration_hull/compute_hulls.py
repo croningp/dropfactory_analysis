@@ -17,10 +17,19 @@ import numpy as np
 from utils.exploration import compute_volume_convex_hull
 from utils.exploration import compute_volume_concave_hull
 
+import matplotlib
 import matplotlib.pyplot as plt
+import seaborn as sns
+
 from utils.plotting import plot_convex_hull
 from utils.plotting import plot_concave_hull
 from utils.plotting import save_and_close_fig
+
+# design figure
+fontsize = 34
+matplotlib.rc('xtick', labelsize=30)
+matplotlib.rc('ytick', labelsize=30)
+matplotlib.rcParams.update({'font.size': fontsize})
 
 
 METHOD_NAMES = ['random_params', 'random_goal']
@@ -31,6 +40,9 @@ X_NORMALIZATION_RATIO = 1.0/20.0
 Y_NORMALIZATION_RATIO = 1.0/20.0
 
 ALPHA = 15
+
+X_FEATURE_LABEL = 'Normalized Droplet Speed'
+Y_FEATURE_LABEL = 'Normalized No. of Droplets'
 
 if __name__ == '__main__':
 
@@ -66,10 +78,20 @@ if __name__ == '__main__':
     global_volume_concave_hull, concave_hull, edge_points = compute_volume_concave_hull(X, ALPHA, last_only=True)
 
     fig = plt.figure(figsize=(10,8))
-    plot_convex_hull(hull)
+    with sns.axes_style("ticks"):
+        ax = plt.subplot(111)
+    # plot_convex_hull(hull)
     plot_concave_hull(concave_hull, edge_points, X)
+    ax.axis('scaled')
     plt.xlim([0, 1])
     plt.ylim([0, 1])
+    ax.set_xlabel(X_FEATURE_LABEL, fontsize=fontsize)
+    ax.set_ylabel(Y_FEATURE_LABEL, fontsize=fontsize)
+    ax.set_title('$alpha={}$'.format(ALPHA), fontsize=fontsize)
+    plt.tight_layout()
+
+    sns.despine(offset=10, trim=True, ax=ax)
+
     filebasename = os.path.join(plot_folder, 'global')
     save_and_close_fig(fig, filebasename)
 
@@ -105,10 +127,19 @@ if __name__ == '__main__':
             concave_hull_data[method_name][seed] = volumes
 
             fig = plt.figure(figsize=(10,8))
-            plot_convex_hull(hull)
+            with sns.axes_style("ticks"):
+                ax = plt.subplot(111)
+            # plot_convex_hull(hull)
             plot_concave_hull(concave_hull, edge_points, X)
+            ax.axis('scaled')
             plt.xlim([0, 1])
             plt.ylim([0, 1])
+            ax.set_xlabel(X_FEATURE_LABEL, fontsize=fontsize)
+            ax.set_ylabel(Y_FEATURE_LABEL, fontsize=fontsize)
+            ax.set_title('$alpha={}$'.format(ALPHA), fontsize=fontsize)
+            plt.tight_layout()
+            sns.despine(offset=10, trim=True, ax=ax)
+
             filebasename = os.path.join(plot_folder, '{} {}'.format(method_name, seed))
             save_and_close_fig(fig, filebasename)
 
