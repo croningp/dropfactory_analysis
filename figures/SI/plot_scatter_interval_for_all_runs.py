@@ -53,7 +53,8 @@ def init_single_fig_ax():
 
 def save_it(fig, plot_folder, filebasename):
 
-    for ext in ['.png', '.eps', '.svg']:
+    for ext in ['.png']:
+    # for ext in ['.png', '.eps', '.svg']:
         plot_dir = os.path.join(plot_folder, ext[1:])
         filetools.ensure_dir(plot_dir)
 
@@ -68,7 +69,8 @@ def plot_it_all(data, plot_folder, stepping=10, color='b'):
         ## exploration
         fig, ax = init_single_fig_ax()
         plot_raw_exploration(ax, data, up_to_iteration, color=color)
-        save_it(fig, plot_folder, 'exploration_raw_{}'.format(up_to_iteration))
+        ax.set_title('$t={:04d}$'.format(up_to_iteration), fontsize=fontsize)
+        save_it(fig, plot_folder, 'exploration_raw_{:04d}'.format(up_to_iteration))
 
     ##
     fig  = plt.figure(figsize=(5*8,2*8))
@@ -92,6 +94,7 @@ def plot_raw_exploration(ax, data, up_to_iteration, color='b'):
     y = data['droplet_features'][Y_FEATURE_NAME]
 
     ax.scatter(x[:up_to_iteration], y[:up_to_iteration], 100, c=color)
+    ax.scatter(x[up_to_iteration-1], y[up_to_iteration-1], 100, c='k')
 
     ax.axis('scaled')
 
@@ -125,7 +128,7 @@ if __name__ == '__main__':
     color_palette = sns.color_palette(flatui)
     default_color = color_palette[4]
 
-    STEPPING = 10
+    STEPPING = 1
 
     data_files = filetools.list_files(dataset_path, 'data.json')
     for data_file in data_files:
