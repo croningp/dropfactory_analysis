@@ -4,6 +4,7 @@
 *.svg
 *.eps
 *.avi
+*.mp4
 analysis/drift_vs_droplet_placement/**/*.json
 analysis/temperature_long_xp/extracted_data
 /analysis/temperature_long_xp/displacement_csv

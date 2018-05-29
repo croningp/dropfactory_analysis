@@ -85,9 +85,9 @@ def clean_array(data_array):
 
 def title_from_path_and_data(path, data):
     if 'random_goal' in path:
-        method_str = 'Goal Babbling'
+        method_str = 'CA'
     elif 'random_params' in path:
-        method_str = 'Random Experiments'
+        method_str = 'Random'
     else:
         method_str = os.path.split(path)[0].split('/')[-2]
 
