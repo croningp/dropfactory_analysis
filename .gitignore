@@ -27,3 +27,5 @@ properties/*.json
 /figures/speed_sort/csv_all
 /figures/speed_sort/csv
 /analysis/dye_release/data/
+SI/data
+/figures/SI/data/average_speed.csv
