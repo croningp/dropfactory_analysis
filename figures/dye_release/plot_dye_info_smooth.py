@@ -13,6 +13,7 @@ from utils.tools import read_from_json
 from utils.plotting import save_and_close_fig
 
 import numpy as np
+import scipy.signal
 
 import filetools
 
@@ -22,7 +23,6 @@ import seaborn as sns
 
 # design figure
 fontsize = 34
-linewidth = 4
 matplotlib.rc('xtick', labelsize=26)
 matplotlib.rc('ytick', labelsize=26)
 matplotlib.rcParams.update({'font.size': fontsize})
@@ -64,10 +64,36 @@ def prepare_error_data(x, data, n_step_point):
 
     return x, y, yerr
 
+# def prepare_smoothed_data(x, data, n_step_point, smooth_window=1001, polyorder=2):
+
+def prepare_smoothed_data(x, data, n_step_point, p0, max_y):
+
+    from scipy.optimize import curve_fit
+
+    def sigmoid(x, x0, phi, min_y):
+         y = (max_y - min_y) / (1 + np.exp(-(x-x0)/phi)) + min_y
+         return y
+
+    popt, pcov = curve_fit(sigmoid, x, np.mean(data, axis=0), p0=p0)
+
+    print popt
+    y = sigmoid(x, *popt)
+
+    # y = scipy.signal.savgol_filter(np.mean(data, axis=0), smooth_window, polyorder)
+
+    ind = np.linspace(0, y.size-1, n_step_point, dtype=int)
+
+    x = x[ind]
+    y = y[ind]
+
+    return x, y
+
+
 if __name__ == '__main__':
 
     FPS = 20.0
     LAST_INDEX = int(270*FPS)
+
     time_steps_in_sec =  np.arange(0, LAST_INDEX/FPS, 1/FPS)
 
     DATA_PATH = os.path.join(HERE_PATH, 'data')
@@ -92,65 +118,65 @@ if __name__ == '__main__':
 
     mean_cold_temperature = round(np.mean(cold_temperature), 1)
     std_cold_temperature = round(np.std(cold_temperature), 1)
-    cold_label = 'T = {}$\pm${} {}'.format(mean_cold_temperature, std_cold_temperature, '${^o}C$')
+    cold_label = '{}$\pm${} {}'.format(mean_cold_temperature, std_cold_temperature, '${^o}C$')
 
     mean_hot_temperature = round(np.mean(hot_temperature), 1)
     std_hot_temperature = round(np.std(hot_temperature), 1)
-    hot_label = 'T = {}$\pm${} {}'.format(mean_hot_temperature, std_hot_temperature, '${^o}C$')
+    hot_label = '{}$\pm${} {}'.format(mean_hot_temperature, std_hot_temperature, '${^o}C$')
 
     ## dye plot
     fig = plt.figure(figsize=(8, 8))
     with sns.axes_style("ticks"):
         ax = plt.subplot(111)
 
-    N_STEP_POINT = 20
+    N_ERROR_POINT = 20
+    N_SMOOTH_POINT = 240
+    MARKER_SIZE = 15
+    ELINEWIDTH = 2
+    CAPTHICK = 2
+    CAPSIZE = 2
+    LINEWIDTH = 3
+    SMOOTH_WINDOW = 1501
+    MAX_Y = 0.73
 
     handles = []
 
-    data = cold_info['ratio_above_threshold']
-    x, y, yerr = prepare_error_data(time_steps_in_sec, data, N_STEP_POINT)
-    handle = plt.errorbar(x, y, yerr=yerr, linewidth=linewidth, color=cold_color)
+
+    ## hot
+    data = hot_info['ratio_above_threshold']
+    x, y, yerr = prepare_error_data(time_steps_in_sec, data, N_ERROR_POINT)
+    plt.scatter(x, y, s=MARKER_SIZE, c=hot_color)
+    handle = plt.errorbar(x, y, yerr=yerr, fmt='none', elinewidth=ELINEWIDTH, ecolor=hot_color, capsize=CAPSIZE)
     handles.append(handle)
 
-    data = hot_info['ratio_above_threshold']
-    x, y, yerr = prepare_error_data(time_steps_in_sec, data, N_STEP_POINT)
-    handle = plt.errorbar(x, y, yerr=yerr, linewidth=linewidth, color=hot_color)
+    x, y = prepare_smoothed_data(time_steps_in_sec, data, N_SMOOTH_POINT, p0=[30, 20, 0], max_y=MAX_Y)
+    plt.plot(x, y, c=hot_color, linewidth=LINEWIDTH)
+
+
+    ## cold
+    data = cold_info['ratio_above_threshold']
+    x, y, yerr = prepare_error_data(time_steps_in_sec, data, N_ERROR_POINT)
+    plt.scatter(x, y, s=MARKER_SIZE, c=cold_color)
+    handle = plt.errorbar(x, y, yerr=yerr, fmt='none', elinewidth=ELINEWIDTH, ecolor=cold_color, capsize=CAPSIZE, capthick=CAPTHICK)
     handles.append(handle)
+
+    x, y = prepare_smoothed_data(time_steps_in_sec, data, N_SMOOTH_POINT, p0=[150, 50, 0], max_y=MAX_Y)
+    plt.plot(x, y, c=cold_color, linewidth=LINEWIDTH)
+
+    ##
 
     plt.xlim([-10, 280])
-    plt.xticks(range(0, 360, 60))
+    plt.xticks([0, 30, 60, 90, 120, 150, 180, 210, 240, 270], ('0', '', '60', '', '120', '', '180', '', '240', ''))
 
     plt.ylim([0, 1.1])
 
     plt.xlabel('Time / $s$', fontsize=fontsize)
     plt.ylabel('Ratio of Dyed Pixels', fontsize=fontsize)
 
-    plt.legend([cold_label, hot_label], fontsize=fontsize, loc=2)
+    plt.legend([hot_label, cold_label], fontsize=fontsize-8, loc=9)
 
     sns.despine(offset=0, trim=True, ax=ax)
     plt.tight_layout()
 
-    figure_filebasename = os.path.join(plot_folder, 'dye_release')
+    figure_filebasename = os.path.join(plot_folder, 'dye_release_smooth')
     save_and_close_fig(fig, figure_filebasename)
-
-    ##
-    fig = plt.figure(figsize=(8, 8))
-    with sns.axes_style("ticks"):
-        ax = plt.subplot(111)
-
-    plt.scatter(range(len(cold_temperature)), cold_temperature, linewidth=linewidth, color=cold_color)
-    plt.scatter(range(len(hot_temperature)), hot_temperature, linewidth=linewidth, color=hot_color)
-
-    plt.xlim([-1, 21])
-    plt.ylim([15, 30])
-
-    plt.xlabel('Experiment Number', fontsize=fontsize)
-    plt.ylabel('Temperature / ${^o}C$', fontsize=fontsize)
-
-    legend = plt.legend([cold_label, hot_label], fontsize=fontsize, bbox_to_anchor=(1, 1), loc=2, borderaxespad=0.)
-
-    sns.despine(offset=0, trim=True, ax=ax)
-    plt.tight_layout()
-
-    figure_filebasename = os.path.join(plot_folder, 'temperatures')
-    save_and_close_fig(fig, figure_filebasename, legend=legend)
