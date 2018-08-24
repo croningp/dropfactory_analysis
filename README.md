@@ -31,14 +31,14 @@ Within the [figures](figures) folder, you can find:
 - [dye_release](figures/dye_release) generates the dissolution plot of Figure 6 of the paper, as well as plot for section 1.7 (p29-32) of the SI. 
 - [exploration](figures/exploration) generates 2D scatter plots showing the range of observation geenrate for each algortihmic run. They are shown on the left side of Figure 2 of the paper.
 
-{![SM2](https://github.com/croningp/dropfactory_analysis/releases/download/video/Supplementary_Movie_2.gif)](https://youtu.be/E76t9LMbuts)
-
+[![SM2](https://github.com/croningp/dropfactory_analysis/releases/download/video/Supplementary_Movie_2.gif)](https://youtu.be/E76t9LMbuts)
 
 - [exploration_hull](figures/exploration_hull) generates the exploration analysis using different method, it is used for section 2.2.3 (p102-103) of the SI.
 - [speed_distribution](figures/speed_distribution) generates the distribution plots on the top rigth corner of Figure 2 of the paper.
 - [stats](figures/stats)
 - [temperature_prediction](figures/temperature_prediction) generates the prediction plot of section 1.6 (p27-29) of the SI.
 
+[![SM5](https://github.com/croningp/dropfactory_analysis/releases/download/video/Supplementary_Movie_5.gif)](https://youtu.be/80yAmBkzdmM)
 
 ## Associated repositories
 
