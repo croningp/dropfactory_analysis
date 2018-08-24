@@ -6,7 +6,6 @@ Code to analyse the results of experiments performed on the Dropfactory platform
 
 ## Repository Organization
 
-All experiments are performed under the [real_experiments](/realworld_experiments) folder.
 
 ## Associated repositories
 
