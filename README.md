@@ -34,7 +34,7 @@ Version: sklearn.__version__ is '0.16.1'
 
 - [filetools](https://github.com/jgrizou/filetools) is a simple file management library
 
-- [matplotlib](https://matplotlib.org/) and [seaborn](http://seaborn.pydata.org/) for plotting
+- [matplotlib](https://matplotlib.org/) v2.1.1 and [seaborn](http://seaborn.pydata.org/) v0.8.1 for plotting
 
 ## Author
 
