@@ -11,7 +11,7 @@ Code to analyse the results of experiments performed on the Dropfactory platform
 
 - The robotic platform hardware and code is described at https://github.com/croningp/dropfactory
 
-- The code used to run closed-loop droplet experiments using the curiosity algorithms is available at https://github.com/croningp/dropfactory_exploration
+- The code used to run closed-loop droplet experiments using the curiosity algorithm (and others) is available at https://github.com/croningp/dropfactory_exploration
 
 - The droplet tracking code is available at https://github.com/croningp/chemobot_tools
 
