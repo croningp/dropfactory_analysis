@@ -109,9 +109,9 @@ def read_all_repeats(pool_folder):
     return repeats
 
 
-def gather_and_save_pool_folder(pool_folder):
+def gather_and_save_pool_folder(pool_folder, source_folder):
 
-    rel_path = os.path.relpath(pool_folder, ORKNEY_XP_FOLDER)
+    rel_path = os.path.relpath(pool_folder, source_folder)
     save_folder = os.path.join(HERE_PATH, rel_path)
     filetools.ensure_dir(save_folder)
 
@@ -140,9 +140,26 @@ def gather_and_save_pool_folder(pool_folder):
 
 if __name__ == '__main__':
 
-    from constants import ORKNEY_XP_FOLDER
+    POOL_FOLDERS = []
+
+    NO_TEMPERATURE_CONTROL_XP_FOLDER = '/media/jgrizou/FULL_CRONIN/ORKNEY/backup_dropfactory/valid_xp_red_dye'
+
+    # no temperature get_json_content_from_xp_folder_and_filename
+    POOL_FOLDERS.append(os.path.join(NO_TEMPERATURE_CONTROL_XP_FOLDER, 'random_params', '10'))
+    POOL_FOLDERS.append(os.path.join(NO_TEMPERATURE_CONTROL_XP_FOLDER, 'random_params', '11'))
+    POOL_FOLDERS.append(os.path.join(NO_TEMPERATURE_CONTROL_XP_FOLDER, 'random_params', '12'))
+    POOL_FOLDERS.append(os.path.join(NO_TEMPERATURE_CONTROL_XP_FOLDER, 'random_goal', '10'))
+    POOL_FOLDERS.append(os.path.join(NO_TEMPERATURE_CONTROL_XP_FOLDER, 'random_goal', '11'))
+    POOL_FOLDERS.append(os.path.join(NO_TEMPERATURE_CONTROL_XP_FOLDER, 'random_goal', '12'))
+
+    #
+    for pool_folder in POOL_FOLDERS:
+        gather_and_save_pool_folder(pool_folder, NO_TEMPERATURE_CONTROL_XP_FOLDER)
+
 
     POOL_FOLDERS = []
+
+    from constants import ORKNEY_XP_FOLDER
 
     # 26C
     POOL_FOLDERS.append(os.path.join(ORKNEY_XP_FOLDER, 'random_params', '100'))
@@ -176,4 +193,4 @@ if __name__ == '__main__':
 
     #
     for pool_folder in POOL_FOLDERS:
-        gather_and_save_pool_folder(pool_folder)
+        gather_and_save_pool_folder(pool_folder, ORKNEY_XP_FOLDER)

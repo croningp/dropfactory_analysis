@@ -32,6 +32,11 @@ def format_data(raw_data):
         data['droplet_features'][k] = [xp['droplet_features'][k] for xp in experiments]
 
     ##
+    data['features'] = {}
+    for k in experiments[0]['features'].keys():
+        data['features'][k] = [xp['features'][k] for xp in experiments]
+
+    ##
     if experiments[0]['explauto_info'] is not None:
         data['algorithm_info'] = {}
         for k in experiments[0]['explauto_info'].keys():
@@ -49,21 +54,27 @@ def format_data(raw_data):
     data['droplet_composition']['norm_json_form'] = []
 
     for xp in experiments:
-        data['droplet_composition']['dep'].append(xp['params']['oil_formulation']['dep'])
-        data['droplet_composition']['octanol'].append(xp['params']['oil_formulation']['octanol'])
-        data['droplet_composition']['octanoic'].append(xp['params']['oil_formulation']['octanoic'])
-        data['droplet_composition']['pentanol'].append(xp['params']['oil_formulation']['pentanol'])
+
+        if 'oil_formulation' in xp['params'].keys():
+            oil_key = 'oil_formulation'
+        else:
+            oil_key = 'formulation'
+
+        data['droplet_composition']['dep'].append(xp['params'][oil_key]['dep'])
+        data['droplet_composition']['octanol'].append(xp['params'][oil_key]['octanol'])
+        data['droplet_composition']['octanoic'].append(xp['params'][oil_key]['octanoic'])
+        data['droplet_composition']['pentanol'].append(xp['params'][oil_key]['pentanol'])
 
         ## ["DEP", "1-Octanol", "Octanoic-Acid", "1-Pentanol"]
         from properties.tools import ratio_normalize
-        oil_vector = [xp['params']['oil_formulation'][k] for k in ['dep', 'octanol', 'octanoic', 'pentanol']]
+        oil_vector = [xp['params'][oil_key][k] for k in ['dep', 'octanol', 'octanoic', 'pentanol']]
         ratio_oil_vector = ratio_normalize([oil_vector])[0,:].tolist()
 
         data['droplet_composition']['vector_form'].append(oil_vector)
         data['droplet_composition']['ratio_vector_form'].append(ratio_oil_vector)
 
         ##
-        data['droplet_composition']['json_form'].append(xp['params']['oil_formulation'])
+        data['droplet_composition']['json_form'].append(xp['params'][oil_key])
         norm_json_form = {}
         for i, k in enumerate(['dep', 'octanol', 'octanoic', 'pentanol']):
             norm_json_form[k] = ratio_oil_vector[i]
@@ -81,7 +92,8 @@ def format_data(raw_data):
 
     ##
     data['xp_info'] = {}
-    for k in experiments[0]['run_info'].keys():
+    # I used index 10 arbitrarily here because some xp had no run_info for index 0
+    for k in experiments[10]['run_info'].keys():
         data['xp_info'][k] = []
         for xp in experiments:
             if xp['run_info'] is not None:
